@@ -137,6 +137,9 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-svg')
+    compile project(':react-native-linear-gradient')
+    compile project(':react-native-camera')
     compile project(':react-native-randombytes')
     compile project(':react-native-google-signin')
     implementation fileTree(dir: "libs", include: ["*.jar"])
