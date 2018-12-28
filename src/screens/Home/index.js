@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, SafeAreaView, StyleSheet, View } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -24,6 +24,12 @@ const styles = StyleSheet.create({
   logo: {
     width: '65%',
   },
+  logoText: {
+    width: '90%',
+    color: '#fff',
+    fontSize: 30,
+    textAlign: 'center',
+  },
   buttonsContainer: {
     paddingHorizontal: 15,
     width: '100%',
@@ -42,7 +48,8 @@ class Home extends Component {
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <View style={styles.logoContainer}>
-            <Image source={logo} style={styles.logo} resizeMode="contain" />
+            {/* <Image source={logo} style={styles.logo} resizeMode="contain" /> */}
+            <Text style={styles.logoText}>XDC Wallet</Text>
           </View>
           <View style={styles.buttonsContainer}>
             <PrimaryButton

@@ -27,21 +27,21 @@ class NetworkPicker extends Component {
 
   menuOptions = [
     {
-      title: 'ETH Mainnet',
+      title: 'XDC Mainnet',
       onPress: () => this.setNetwork('mainnet'),
     },
-    {
-      title: 'ETH Ropsten',
-      onPress: () => this.setNetwork('ropsten'),
-    },
-    {
-      title: 'ETH Kovan',
-      onPress: () => this.setNetwork('kovan'),
-    },
-    {
-      title: 'ETH Rinkeby',
-      onPress: () => this.setNetwork('rinkeby'),
-    },
+    // {
+    //   title: 'ETH Ropsten',
+    //   onPress: () => this.setNetwork('ropsten'),
+    // },
+    // {
+    //   title: 'ETH Kovan',
+    //   onPress: () => this.setNetwork('kovan'),
+    // },
+    // {
+    //   title: 'ETH Rinkeby',
+    //   onPress: () => this.setNetwork('rinkeby'),
+    // },
   ];
 
   setNetwork = network => {

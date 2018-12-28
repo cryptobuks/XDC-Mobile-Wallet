@@ -2,9 +2,9 @@ import uuid from 'react-native-uuid';
 
 const defaultTokens = [
   {
-    name: 'Ethereum',
+    name: 'XDC',
     id: uuid.v4(),
-    symbol: 'ETH',
+    symbol: 'XDC',
   },
 ];
 

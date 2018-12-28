@@ -167,6 +167,7 @@ class WalletHome extends Component {
   };
 
   render() {
+    console.log('selectedToken', this.props.selectedToken);
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>

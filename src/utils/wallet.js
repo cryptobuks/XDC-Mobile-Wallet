@@ -1,10 +1,13 @@
 import Config from 'react-native-config';
 import EthereumJsWallet from 'ethereumjs-wallet';
 import Web3 from 'web3';
+import EthereumTx from 'ethereumjs-tx';
 import ProviderEngine from 'web3-provider-engine';
 import WalletSubprovider from 'web3-provider-engine/subproviders/wallet';
 import ProviderSubprovider from 'web3-provider-engine/subproviders/provider';
 import { store } from '../config/store';
+import contractAbi from './XDCAbi';
+const contractAddress = '0x7b7b74e20ed121058ffb5ede69346b9f729a7cab';
 import {
   ADD_TOKEN,
   SET_WALLET_ADDRESS,
@@ -73,18 +76,6 @@ export default class WalletUtils {
 
   static getWeb3HTTPProvider() {
     switch (store.getState().network) {
-      case 'ropsten':
-        return new Web3.providers.HttpProvider(
-          `https://ropsten.infura.io/${Config.INFURA_API_KEY}`,
-        );
-      case 'kovan':
-        return new Web3.providers.HttpProvider(
-          `https://kovan.infura.io/${Config.INFURA_API_KEY}`,
-        );
-      case 'rinkeby':
-        return new Web3.providers.HttpProvider(
-          `https://rinkeby.infura.io/${Config.INFURA_API_KEY}`,
-        );
       default:
         return new Web3.providers.HttpProvider(
           // `https://mainnet.infura.io/${Config.INFURA_API_KEY}`,
@@ -95,12 +86,6 @@ export default class WalletUtils {
 
   static getEtherscanApiSubdomain() {
     switch (store.getState().network) {
-      case 'ropsten':
-        return 'api-ropsten';
-      case 'kovan':
-        return 'api-kovan';
-      case 'rinkeby':
-        return 'api-rinkeby';
       default:
         return 'api';
     }
@@ -135,7 +120,7 @@ export default class WalletUtils {
     if (network !== 'mainnet') return Promise.resolve();
 
     const availableTokensAddresses = availableTokens
-      .filter(token => token.symbol !== 'ETH')
+      .filter(token => token.symbol !== 'XDC')
       .map(token => token.contractAddress);
 
     return fetch(
@@ -172,7 +157,7 @@ export default class WalletUtils {
    * @param {Object} token
    */
   static getTransactions({ contractAddress, decimals, symbol }) {
-    if (symbol === 'ETH') {
+    if (symbol === 'XDC') {
       return this.getEthTransactions();
     }
 
@@ -239,7 +224,8 @@ export default class WalletUtils {
    * @param {Object} token
    */
   static getBalance({ contractAddress, symbol, decimals }) {
-    if (symbol === 'ETH') {
+    console.log('symbol', symbol);
+    if (symbol === 'XDC') {
       return this.getEthBalance();
     }
 
@@ -250,41 +236,33 @@ export default class WalletUtils {
    * Get the user's wallet ETH balance
    */
   static getEthBalance() {
-    const { walletAddress } = store.getState();
 
+    const { walletAddress, privateKey } = store.getState();
+    console.log('walletAddress', walletAddress)
+    console.log('privateKey', privateKey)
     const web3 = new Web3(this.getWeb3HTTPProvider());
+
     return new Promise((resolve, reject) => {
-      // web3.eth.getBalance('0x0000000000000000000000000000000000000000', (error, weiBalance) => {
-      //   console.log('error', error);
-      //   console.log('weibalance', weiBalance)
-      //   if (error) {
-      //     reject(error);
-      //   }
-
-      //   const balance = weiBalance / Math.pow(10, 18);
-      //   console.log('balance', balance);
-      //   AnalyticsUtils.trackEvent('Get ETH balance', {
-      //     balance,
-      //   });
-
-      //   resolve(balance);
-      // });
-      var contractAbi = [{ "constant": true, "inputs": [], "name": "mintingFinished", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "name", "outputs": [{ "name": "", "type": "string" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "spender", "type": "address" }, { "name": "value", "type": "uint256" }], "name": "approve", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "totalSupply", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "from", "type": "address" }, { "name": "to", "type": "address" }, { "name": "value", "type": "uint256" }], "name": "transferFrom", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [], "name": "destroyToken", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "decimals", "outputs": [{ "name": "", "type": "uint8" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "cap", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "spender", "type": "address" }, { "name": "addedValue", "type": "uint256" }], "name": "increaseAllowance", "outputs": [{ "name": "success", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [], "name": "unpause", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "to", "type": "address" }, { "name": "amount", "type": "uint256" }], "name": "mint", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "value", "type": "uint256" }], "name": "burn", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "value", "type": "uint256" }], "name": "upgrade", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "account", "type": "address" }], "name": "isPauser", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "paused", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "upgradeAgent", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "upgradeMaster", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [], "name": "renouncePauser", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "owner", "type": "address" }], "name": "balanceOf", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [], "name": "renounceOwnership", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [], "name": "acceptOwnership", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "from", "type": "address" }, { "name": "value", "type": "uint256" }], "name": "burnFrom", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "_tokens", "type": "uint256" }, { "name": "_address", "type": "address" }], "name": "sendTokensToCrowdsale", "outputs": [{ "name": "ok", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [], "name": "finishMinting", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "account", "type": "address" }], "name": "addPauser", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "getUpgradeState", "outputs": [{ "name": "", "type": "uint8" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [], "name": "pause", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "owner", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "isOwner", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "symbol", "outputs": [{ "name": "", "type": "string" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "canUpgrade", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "account", "type": "address" }], "name": "addMinter", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [], "name": "renounceMinter", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "spender", "type": "address" }, { "name": "subtractedValue", "type": "uint256" }], "name": "decreaseAllowance", "outputs": [{ "name": "success", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "to", "type": "address" }, { "name": "value", "type": "uint256" }], "name": "transfer", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "account", "type": "address" }], "name": "isMinter", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "totalUpgraded", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "newOwner", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "agent", "type": "address" }], "name": "setUpgradeAgent", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "owner", "type": "address" }, { "name": "spender", "type": "address" }], "name": "allowance", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "_tokens", "type": "uint256" }], "name": "sendTokensToOwner", "outputs": [{ "name": "ok", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "_newOwner", "type": "address" }], "name": "transferOwnership", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "_upgradeMaster", "type": "address" }], "name": "UpgradeableToken", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "master", "type": "address" }], "name": "setUpgradeMaster", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "_from", "type": "address" }, { "indexed": true, "name": "_to", "type": "address" }, { "indexed": false, "name": "_value", "type": "uint256" }], "name": "Upgrade", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "agent", "type": "address" }], "name": "UpgradeAgentSet", "type": "event" }, { "anonymous": false, "inputs": [], "name": "MintingFinished", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "account", "type": "address" }], "name": "MinterAdded", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "account", "type": "address" }], "name": "MinterRemoved", "type": "event" }, { "anonymous": false, "inputs": [], "name": "Paused", "type": "event" }, { "anonymous": false, "inputs": [], "name": "Unpaused", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "account", "type": "address" }], "name": "PauserAdded", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "account", "type": "address" }], "name": "PauserRemoved", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "_from", "type": "address" }, { "indexed": true, "name": "_to", "type": "address" }], "name": "OwnershipTransferred", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "previousOwner", "type": "address" }], "name": "OwnershipRenounced", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "from", "type": "address" }, { "indexed": true, "name": "to", "type": "address" }, { "indexed": false, "name": "value", "type": "uint256" }], "name": "Transfer", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "owner", "type": "address" }, { "indexed": true, "name": "spender", "type": "address" }, { "indexed": false, "name": "value", "type": "uint256" }], "name": "Approval", "type": "event" }];
       var MyContract = web3.eth.contract(contractAbi);
-      var instancecontract = MyContract.at('0x7c7845cb7dd1975277f1a827a2faeb8ef7ceaf8c');
-      instancecontract.balanceOf("0xe673dd838b906ed5bdf1962075a7b512789db49e", function(error, weiBalance) {
+      web3.eth.getBalance(walletAddress, function(e, r) {
+        // console.log('getbalance e', r);
+        // console.log('getbalance r', r / Math.pow(10, 18));
+      });
+      var instancecontract = MyContract.at(contractAddress);
+      instancecontract.balanceOf(walletAddress, function (error, weiBalance) {
+        console.log('getbalance e', weiBalance);
+        console.log('getbalance r', weiBalance / Math.pow(10, 18));
+        if (error) {
+          reject(error);
+        }
+
         const balance = weiBalance / Math.pow(10, 4);
-          if (error) {
-            reject(error);
-          }
 
-          const balance = weiBalance / Math.pow(10, 18);
-          console.log('balance', balance);
-          AnalyticsUtils.trackEvent('Get ETH balance', {
-            balance,
-          });
+        AnalyticsUtils.trackEvent('Get ETH balance', {
+          balance,
+        });
 
-          resolve(balance);
+        resolve(balance);
       });
 
 
@@ -335,7 +313,7 @@ export default class WalletUtils {
     toAddress,
     amount,
   ) {
-    if (symbol === 'ETH') {
+    if (symbol === 'XDC') {
       return this.sendETHTransaction(toAddress, amount);
     }
 
@@ -347,6 +325,7 @@ export default class WalletUtils {
     );
   }
 
+
   /**
    * Send an ETH transaction to the given address with the given amount
    *
@@ -354,6 +333,7 @@ export default class WalletUtils {
    * @param {String} amount
    */
   static sendETHTransaction(toAddress, amount) {
+    const { walletAddress, privateKey } = store.getState();
     const web3 = this.getWeb3Instance();
 
     AnalyticsUtils.trackEvent('Send ETH transaction', {
@@ -361,20 +341,51 @@ export default class WalletUtils {
     });
 
     return new Promise((resolve, reject) => {
-      web3.eth.sendTransaction(
-        {
-          to: toAddress,
-          value: web3.toWei(amount),
-        },
-        (error, transaction) => {
-          if (error) {
-            reject(error);
-          }
+      web3.eth.getTransactionCount(walletAddress, function (error, data) {
+        console.log('data:::', data);
+        const txParams = {
+          nonce: data,
+          chainID: 21101502,
+          gasPrice: '0x04e3',
+          gasLimit: '0x7459',
+          to: contractAddress,
+          data: web3.eth.contract(contractAbi).
+            at(contractAddress)
+            .transfer.getData(toAddress, amount, { from: walletAddress })
+        }
 
-          resolve(transaction);
-        },
-      );
+        const tx = new EthereumTx(txParams)
+
+        console.log('tx:::', tx);
+        tx.sign(Buffer.from(privateKey, 'hex'));
+        const serializedTx = tx.serialize();
+        console.log('serial', serializedTx);
+        web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'), function (err, hash) {
+          if (!err) {
+            console.log('hash', hash);
+          } else {
+            console.log('err', err);
+          }
+        });
+
+      });
     });
+
+    // return new Promise((resolve, reject) => {
+    //   web3.eth.sendTransaction(
+    //     {
+    //       to: toAddress,
+    //       value: web3.toWei(amount),
+    //     },
+    //     (error, transaction) => {
+    //       if (error) {
+    //         reject(error);
+    //       }
+
+    //       resolve(transaction);
+    //     },
+    //   );
+    // });
   }
 
   /**
@@ -391,7 +402,17 @@ export default class WalletUtils {
       value: amount,
     });
 
+    // let data = web3.eth.contract(erc20Abi).
+    //               at("0x7b7b74e20ed121058ffb5ede69346b9f729a7cab")
+    //               .transfer(toAddress, amount * Math.pow(10, decimals)
+    // let  obj1 = {
+    //     nonce: "",
+    //     gas: 470000,
+    //     data: 
+    //   }
+
     return new Promise((resolve, reject) => {
+
       web3.eth
         .contract(erc20Abi)
         .at(contractAddress)

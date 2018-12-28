@@ -18,10 +18,11 @@ const styles = StyleSheet.create({
   },
   balanceContainer: {
     flexDirection: 'row',
+    width: '50%',
   },
   balance: {
     color: '#fff',
-    fontSize: 30,
+    fontSize: 16,
     letterSpacing: 3,
     paddingRight: 5,
   },

@@ -82,14 +82,14 @@ class Settings extends Component {
 
   getNetworkName = () => {
     switch (this.props.network) {
-      case 'ropsten':
-        return 'ETH Ropsten';
-      case 'kovan':
-        return 'ETH Kovan';
-      case 'rinkeby':
-        return 'ETH Rinkeby';
+      // case 'ropsten':
+      //   return 'ETH Ropsten';
+      // case 'kovan':
+      //   return 'ETH Kovan';
+      // case 'rinkeby':
+      //   return 'ETH Rinkeby';
       default:
-        return 'ETH Mainnet';
+        return 'XDC Mainnet';
     }
   };
 
