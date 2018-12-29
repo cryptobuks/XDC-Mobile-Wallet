@@ -5,9 +5,11 @@ import EthereumTx from 'ethereumjs-tx';
 import ProviderEngine from 'web3-provider-engine';
 import WalletSubprovider from 'web3-provider-engine/subproviders/wallet';
 import ProviderSubprovider from 'web3-provider-engine/subproviders/provider';
+// import Passport from 'passport';
+// import googleStrategy from 'passport-google-oauth20';
 import { store } from '../config/store';
 import contractAbi from './XDCAbi';
-const contractAddress = '0x7b7b74e20ed121058ffb5ede69346b9f729a7cab';
+const contractAddress = '0xc573c48ad1037dd92cb39281e5f55dcb5e033a70';
 import {
   ADD_TOKEN,
   SET_WALLET_ADDRESS,
@@ -78,9 +80,8 @@ export default class WalletUtils {
     switch (store.getState().network) {
       default:
         return new Web3.providers.HttpProvider(
-          // `https://mainnet.infura.io/${Config.INFURA_API_KEY}`,
-          'http://78.129.229.130:8545',
-        );
+          "https://ropsten.infura.io/v3/f060477f35da4c4b85e403b978b17d55"
+          );
     }
   }
 
@@ -218,6 +219,16 @@ export default class WalletUtils {
       });
   }
 
+
+  /**
+   * Google Sign in
+   *
+   * 
+   */
+  static OAuthSignIn() {
+
+  }
+
   /**
    * Get the user's wallet balance of a given token
    *
@@ -245,18 +256,22 @@ export default class WalletUtils {
     return new Promise((resolve, reject) => {
       var MyContract = web3.eth.contract(contractAbi);
       web3.eth.getBalance(walletAddress, function(e, r) {
-        // console.log('getbalance e', r);
-        // console.log('getbalance r', r / Math.pow(10, 18));
+        console.log('getbalance eth', r);
+        console.log('getbalance ree', r / Math.pow(10, 18));
       });
       var instancecontract = MyContract.at(contractAddress);
+      console.log(instancecontract.name(function(res, err) {
+        console.log('res', res);
+        console.log('rej', err);
+      }));
       instancecontract.balanceOf(walletAddress, function (error, weiBalance) {
-        console.log('getbalance e', weiBalance);
+        console.log('getbalance p', weiBalance);
         console.log('getbalance r', weiBalance / Math.pow(10, 18));
         if (error) {
           reject(error);
         }
 
-        const balance = weiBalance / Math.pow(10, 4);
+        const balance = weiBalance / Math.pow(10, 18);
 
         AnalyticsUtils.trackEvent('Get ETH balance', {
           balance,
@@ -345,9 +360,9 @@ export default class WalletUtils {
         console.log('data:::', data);
         const txParams = {
           nonce: data,
-          chainID: 21101502,
+          chainID: 3,
           gasPrice: '0x04e3',
-          gasLimit: '0x7459',
+          gasLimit: '0x1358E',
           to: contractAddress,
           data: web3.eth.contract(contractAbi).
             at(contractAddress)
@@ -363,8 +378,10 @@ export default class WalletUtils {
         web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'), function (err, hash) {
           if (!err) {
             console.log('hash', hash);
+            resolve(hash);
           } else {
             console.log('err', err);
+            reject(err);
           }
         });
 
