@@ -36,8 +36,13 @@ class Home extends Component {
 
     console.log(manager);
 
-    manager.authorize('google')
-      .then(resp => console.log(resp))
+    manager.authorize('google', {scopes: 'profile'})
+      .then(
+        resp => {
+          console.log(resp);
+          
+        }
+      )
       .catch(err => console.log(err));
   }
 
@@ -50,10 +55,10 @@ class Home extends Component {
             <Text style={styles.logoText}>XDC Wallet</Text>
           </View>
           <View style={styles.buttonsContainer}>
-            {/* <PrimaryButton
+            <PrimaryButton
               onPress={() => this.signIn()}
               text="Sign In with Google"
-            /> */}
+            />
             <PrimaryButton
               onPress={() => this.props.navigation.navigate('CreateWallet')}
               text="Create wallet"

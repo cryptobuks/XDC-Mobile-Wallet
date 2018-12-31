@@ -3,6 +3,7 @@ package com.xdcwallet;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.fullstack.oauth.OAuthManagerPackage;
 import com.horcrux.svg.SvgPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import org.reactnative.camera.RNCameraPackage;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new OAuthManagerPackage(),
             new SvgPackage(),
             new LinearGradientPackage(),
             new RNCameraPackage(),
