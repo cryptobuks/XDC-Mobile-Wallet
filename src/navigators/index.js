@@ -5,6 +5,7 @@ import {
   CameraScreen,
   CreateWalletScreen,
   HomeScreen,
+  SignUpScreen,
   NetworkPickerScreen,
   PinCodeScreen,
   PrivateKeyScreen,
@@ -21,6 +22,9 @@ const WelcomeNavigator = createStackNavigator(
     Camera: {
       screen: CameraScreen,
     },
+    SignUp: {
+      screen: SignUpScreen,
+    },
     CreateWallet: {
       screen: CreateWalletScreen,
     },
@@ -36,7 +40,7 @@ const WelcomeNavigator = createStackNavigator(
       backgroundColor: '#181724',
     },
     headerMode: 'none',
-    initialRouteName: 'Home',
+    initialRouteName: 'SignUp',
   },
 );
 

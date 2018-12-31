@@ -8,8 +8,6 @@ import {
   SecondaryButton,
 } from '../../components';
 import logo from './images/logo.png';
-import OAuthManager from 'react-native-oauth';
-const manager = new OAuthManager('XDCWallet');
 
 class Home extends Component {
   static propTypes = {
@@ -17,34 +15,6 @@ class Home extends Component {
       navigate: PropTypes.func.isRequired,
     }).isRequired,
   };
-
-
-  signIn = () => {
-    const config = {
-      twitter: {
-        consumer_key: 'SOME_CONSUMER_KEY',
-        consumer_secret: 'SOME_CONSUMER_SECRET'
-      },
-      google: {
-        callback_url: `io.fullstack.FirestackExample:/oauth2redirect`,
-        client_id: '47621642897-0m87j98bjb3gmgqq1vb1sl81fsem9k62.apps.googleusercontent.com',
-        client_secret: '8HPFSWc0D0xCk2sjNrYmiV7M'
-      }
-    };
-
-    manager.configure(config);
-
-    console.log(manager);
-
-    manager.authorize('google', {scopes: 'profile'})
-      .then(
-        resp => {
-          console.log(resp);
-          
-        }
-      )
-      .catch(err => console.log(err));
-  }
 
   render() {
     return (
@@ -55,10 +25,6 @@ class Home extends Component {
             <Text style={styles.logoText}>XDC Wallet</Text>
           </View>
           <View style={styles.buttonsContainer}>
-            <PrimaryButton
-              onPress={() => this.signIn()}
-              text="Sign In with Google"
-            />
             <PrimaryButton
               onPress={() => this.props.navigation.navigate('CreateWallet')}
               text="Create wallet"
