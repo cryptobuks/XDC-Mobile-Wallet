@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { Text } from '../../../../components';
 
 import switchIcon from './images/switch.png';
-import settingsIcon from './images/settings.png';
 
 const styles = StyleSheet.create({
   container: {
@@ -48,10 +47,6 @@ const styles = StyleSheet.create({
     width: 1000,
     height: 1000,
   },
-  settingsIcon: {
-    height: 24,
-    width: 24,
-  },
 });
 
 class BalanceRow extends Component {
@@ -62,7 +57,6 @@ class BalanceRow extends Component {
       symbol: PropTypes.string.isRequired,
     }).isRequired,
     onTokenChangeIconPress: PropTypes.func.isRequired,
-    onSettingsIconPress: PropTypes.func.isRequired,
   };
 
   render() {
@@ -70,7 +64,6 @@ class BalanceRow extends Component {
       currentBalance,
       selectedToken,
       onTokenChangeIconPress,
-      onSettingsIconPress,
     } = this.props;
 
     return (
@@ -86,9 +79,6 @@ class BalanceRow extends Component {
         <View style={styles.iconsContainer}>
           <TouchableOpacity onPress={onTokenChangeIconPress}>
             <Image source={switchIcon} style={styles.switchIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onSettingsIconPress}>
-            <Image source={settingsIcon} style={styles.settingsIcon} />
           </TouchableOpacity>
         </View>
       </View>

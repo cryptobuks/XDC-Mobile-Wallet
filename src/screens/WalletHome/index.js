@@ -225,6 +225,7 @@ class WalletHome extends Component {
                 onTokenChange: this.onTokenChange,
               })
             }
+            onSettingPress={() => this.props.navigation.navigate('Settings')}
           />
         </SafeAreaView>
       </GradientBackground>
