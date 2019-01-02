@@ -1,10 +1,13 @@
 import uuid from 'react-native-uuid';
+const contractAddress = '0xc573c48ad1037dd92cb39281e5f55dcb5e033a70';
 
 const defaultTokens = [
   {
     name: 'XDC',
     id: uuid.v4(),
     symbol: 'XDC',
+    contractAddress: contractAddress,
+    decimals: 18,
   },
 ];
 

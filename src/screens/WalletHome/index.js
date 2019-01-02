@@ -17,13 +17,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
-    paddingTop: 40,
+    paddingTop: 0,
   },
   topContainer: {
     flex: 1,
   },
   coinName: {
     color: '#fff',
+    backgroundColor: '#333',
     fontSize: 18,
     letterSpacing: 3,
     paddingVertical: 5,

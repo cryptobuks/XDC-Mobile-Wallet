@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, Platform, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import FingerprintScanner from 'react-native-fingerprint-scanner';
 import DialogAndroid from 'react-native-dialogs';
@@ -53,23 +53,13 @@ export default class PinKeyboard extends Component {
   }
 
   onTouchIdClick = async () => {
-    let dialog;
-
     try {
       if (Platform.OS === 'android') {
-        dialog = new DialogAndroid();
-
-        dialog.set({
-          title: 'Authentication Required',
-          content: 'Touch fingerprint sensor to unlock your wallet',
-          negativeColor: '#4D00FF',
-          negativeText: 'Cancel',
-          onNegative: () => {
-            FingerprintScanner.release();
-          },
-        });
-
-        dialog.show();
+        console.log('platform.os')
+        Alert.alert(
+          'Authentication Required',
+          "Touch fingerprint sensor to unlock your wallet",
+        );
 
         await FingerprintScanner.authenticate({
           onAttempt: () => {},
@@ -77,7 +67,7 @@ export default class PinKeyboard extends Component {
 
         this.props.onAuthSuccess();
 
-        dialog.dismiss();
+        
       } else {
         await FingerprintScanner.authenticate({
           description: 'Wallet access',
@@ -86,9 +76,7 @@ export default class PinKeyboard extends Component {
         this.props.onAuthSuccess();
       }
     } catch (error) {
-      if (dialog) {
-        dialog.dismiss();
-      }
+      console.log('error:::'. error);
     }
   };
 

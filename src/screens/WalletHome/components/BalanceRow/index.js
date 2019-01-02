@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 15,
     width: '100%',
+    backgroundColor: '#333',
   },
   balanceContainer: {
     flexDirection: 'row',

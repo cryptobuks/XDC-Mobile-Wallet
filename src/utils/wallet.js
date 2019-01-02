@@ -9,7 +9,6 @@ import ProviderSubprovider from 'web3-provider-engine/subproviders/provider';
 // import googleStrategy from 'passport-google-oauth20';
 import { store } from '../config/store';
 import contractAbi from './XDCAbi';
-const contractAddress = '0xc573c48ad1037dd92cb39281e5f55dcb5e033a70';
 import {
   ADD_TOKEN,
   SET_WALLET_ADDRESS,
@@ -158,37 +157,7 @@ export default class WalletUtils {
    * @param {Object} token
    */
   static getTransactions({ contractAddress, decimals, symbol }) {
-    if (symbol === 'XDC') {
-      return this.getEthTransactions();
-    }
-
     return this.getERC20Transactions(contractAddress, decimals);
-  }
-
-  /**
-   * Fetch a list of ETH transactions for the user's wallet
-   */
-  static getEthTransactions() {
-    const { walletAddress } = store.getState();
-
-    return fetch(
-      `https://${this.getEtherscanApiSubdomain()}.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&sort=desc&apikey=${
-      Config.ETHERSCAN_API_KEY
-      }`,
-    )
-      .then(response => response.json())
-      .then(data => {
-        if (data.message !== 'OK') {
-          return [];
-        }
-
-        return data.result.filter(t => t.value !== '0').map(t => ({
-          from: t.from,
-          timestamp: t.timeStamp,
-          transactionHash: t.hash,
-          value: (parseInt(t.value, 10) / 1e18).toFixed(2),
-        }));
-      });
   }
 
   /**
@@ -234,19 +203,18 @@ export default class WalletUtils {
    *
    * @param {Object} token
    */
-  static getBalance({ contractAddress, symbol, decimals }) {
-    console.log('symbol', symbol);
+  static getBalance({contractAddress, symbol, decimals}) {
+    console.log('2', contractAddress);
+    console.log('3', decimals);
     if (symbol === 'XDC') {
-      return this.getEthBalance();
+      return this.getERC20Balance(contractAddress, decimals);
     }
-
-    return this.getERC20Balance(contractAddress, decimals);
   }
 
   /**
    * Get the user's wallet ETH balance
    */
-  static getEthBalance() {
+  static getERC20Balance(contractAddress, decimals) {
 
     const { walletAddress, privateKey } = store.getState();
     console.log('walletAddress', walletAddress)
@@ -260,10 +228,10 @@ export default class WalletUtils {
         console.log('getbalance ree', r / Math.pow(10, 18));
       });
       var instancecontract = MyContract.at(contractAddress);
-      console.log(instancecontract.name(function(res, err) {
-        console.log('res', res);
-        console.log('rej', err);
-      }));
+      // console.log(instancecontract.name(function(res, err) {
+      //   console.log('res', res);
+      //   console.log('error', err);
+      // }));
       instancecontract.balanceOf(walletAddress, function (error, weiBalance) {
         console.log('getbalance p', weiBalance);
         console.log('getbalance r', weiBalance / Math.pow(10, 18));
@@ -281,38 +249,6 @@ export default class WalletUtils {
       });
 
 
-    });
-  }
-
-  /**
-   * Get the user's wallet balance of a specific ERC20 token
-   *
-   * @param {String} contractAddress
-   * @param {Number} decimals
-   */
-  static getERC20Balance(contractAddress, decimals) {
-    const { walletAddress } = store.getState();
-
-    const web3 = new Web3(this.getWeb3HTTPProvider());
-
-    return new Promise((resolve, reject) => {
-      web3.eth
-        .contract(erc20Abi)
-        .at(contractAddress)
-        .balanceOf(walletAddress, (error, decimalsBalance) => {
-          if (error) {
-            reject(error);
-          }
-
-          const balance = decimalsBalance / Math.pow(10, decimals);
-
-          AnalyticsUtils.trackEvent('Get ERC20 balance', {
-            balance,
-            contractAddress,
-          });
-
-          resolve(balance);
-        });
     });
   }
 
