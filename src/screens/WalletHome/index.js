@@ -3,6 +3,7 @@ import { AppState, Alert, SafeAreaView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GradientBackground, Text } from '../../components';
+import LinearGradient from 'react-native-linear-gradient';
 import {
   BalanceRow,
   CallToAction,
@@ -11,6 +12,7 @@ import {
 } from './components';
 import { SET_CALL_TO_ACTION_DISMISSED } from '../../config/actionTypes';
 import WalletUtils from '../../utils/wallet';
+import { relative } from 'path';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,9 +24,37 @@ const styles = StyleSheet.create({
   topContainer: {
     flex: 1,
   },
+  gradientHeaderWrapper: {
+    height: 150,
+    position: 'relative',
+  },
+  gradientHeader: {
+    width: '100%',
+    height: 130,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+  },
+  gradientHeaderShadow: {
+    position: 'absolute',
+    width: '92%',
+    marginLeft: '4%',
+    bottom: 10,   
+    height: 10,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+  },
+  gradientHeaderShadowTwo: {
+    position: 'absolute',
+    width: '86%',
+    marginLeft: '7%',
+    bottom: 0,   
+    height: 10,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+  },
   coinName: {
     color: '#fff',
-    backgroundColor: '#333',
+    backgroundColor: 'transparent',
     fontSize: 18,
     letterSpacing: 3,
     paddingVertical: 5,
@@ -184,18 +214,42 @@ class WalletHome extends Component {
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <View style={styles.topContainer}>
-            <Text style={styles.coinName} letterSpacing={2}>
-              {this.props.selectedToken.name}
-            </Text>
-            <BalanceRow
-              currentBalance={this.state.currentBalance}
-              onTokenChangeIconPress={() =>
-                this.props.navigation.navigate('TokenPicker')
-              }
-              onSettingsIconPress={() =>
-                this.props.navigation.navigate('Settings')
-              }
-            />
+            <View style={styles.gradientHeaderWrapper}>
+              <LinearGradient
+                colors={['#7f0fc9', '#4d00ff']}
+                locations={[0, 1]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.gradientHeader}
+              >
+                <Text style={styles.coinName} letterSpacing={2}>
+                  {this.props.selectedToken.name}
+                </Text>
+                <BalanceRow
+                  currentBalance={this.state.currentBalance}
+                  onTokenChangeIconPress={() =>
+                    this.props.navigation.navigate('TokenPicker')
+                  }
+                  onSettingsIconPress={() =>
+                    this.props.navigation.navigate('Settings')
+                  }
+                />
+              </LinearGradient>
+              <LinearGradient
+                colors={['rgba(127,15,201,0.7)', 'rgba(77,0,255,0.7)']}
+                locations={[0, 1]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.gradientHeaderShadow}
+              ></LinearGradient>
+              <LinearGradient
+                colors={['rgba(127,15,201,0.5)', 'rgba(77,0,255,0.5)']}
+                locations={[0, 1]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.gradientHeaderShadowTwo}
+              ></LinearGradient>
+            </View>
             {!this.props.callToActionDismissed && (
               <CallToAction
                 onDismiss={this.onCallToActionDismiss}

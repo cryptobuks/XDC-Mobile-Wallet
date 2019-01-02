@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 15,
     width: '100%',
-    backgroundColor: '#333',
+    backgroundColor: 'transparent',
   },
   balanceContainer: {
     flexDirection: 'row',
@@ -69,6 +69,7 @@ class BalanceRow extends Component {
 
     return (
       <View style={styles.container}>
+        
         <View style={styles.balanceContainer}>
           <Text style={styles.balance} letterSpacing={1}>
             {currentBalance.toFixed(2)}
@@ -77,6 +78,7 @@ class BalanceRow extends Component {
             {selectedToken.symbol}
           </Text>
         </View>
+        
         <View style={styles.iconsContainer}>
           <TouchableOpacity onPress={onTokenChangeIconPress}>
             <Image source={switchIcon} style={styles.switchIcon} />
