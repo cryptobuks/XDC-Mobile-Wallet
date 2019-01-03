@@ -274,6 +274,7 @@ class WalletHome extends Component {
             </View>
           </View>
           <Footer
+            activeTab="send"
             onReceivePress={() => this.props.navigation.navigate('Receive')}
             onSendPress={() =>
               this.props.navigation.navigate('Send', {

@@ -206,9 +206,9 @@ export default class WalletUtils {
   static getBalance({contractAddress, symbol, decimals}) {
     console.log('2', contractAddress);
     console.log('3', decimals);
-    if (symbol === 'XDC') {
+    
       return this.getERC20Balance(contractAddress, decimals);
-    }
+    
   }
 
   /**
@@ -264,16 +264,8 @@ export default class WalletUtils {
     toAddress,
     amount,
   ) {
-    if (symbol === 'XDC') {
-      return this.sendETHTransaction(toAddress, amount);
-    }
-
-    return this.sendERC20Transaction(
-      contractAddress,
-      decimals,
-      toAddress,
-      amount,
-    );
+    console.log(contractAddress, symbol, decimals, toAddress, amount)
+    return this.sendETHTransaction(contractAddress, decimals, toAddress, amount);
   }
 
 
@@ -283,7 +275,7 @@ export default class WalletUtils {
    * @param {String} toAddress
    * @param {String} amount
    */
-  static sendETHTransaction(toAddress, amount) {
+  static sendETHTransaction(contractAddress, decimals, toAddress, amount) {
     const { walletAddress, privateKey } = store.getState();
     const web3 = this.getWeb3Instance();
 
@@ -371,7 +363,7 @@ export default class WalletUtils {
         .at(contractAddress)
         .transfer(
           toAddress,
-          amount * Math.pow(10, decimals),
+          amount / Math.pow(10, decimals),
           (error, transaction) => {
             if (error) {
               reject(error);

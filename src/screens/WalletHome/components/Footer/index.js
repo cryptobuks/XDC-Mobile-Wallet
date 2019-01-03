@@ -5,14 +5,39 @@ import { Text } from '../../../../components';
 import sendIcon from './images/send.png';
 import qrcodeIcon from './images/qrcode.png';
 import settingsIcon from './images/settings.png';
+import LinearGradient from 'react-native-linear-gradient';
 
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    borderTopColor: '#3C3749',
-    borderTopWidth: 2,
     flexDirection: 'row',
     width: '100%',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  gradientHeader: {
+    width: '100%',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    position: 'relative',
+  },
+  gradientHeaderShadow: {
+    position: 'absolute',
+    width: '92%',
+    marginLeft: '4%',
+    top: -10,   
+    height: 10,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  gradientHeaderShadowTwo: {
+    position: 'absolute',
+    width: '86%',
+    marginLeft: '7%',
+    top: -20,   
+    height: 10,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
   },
   buttonIcon: {
     height: 18,
@@ -29,11 +54,17 @@ const styles = StyleSheet.create({
     width: '25%',
   },
   sendButton: {
-    borderRightWidth: 1,
+    // borderRightWidth: 1,
+    borderBottomWidth: 2,
+    borderColor: '#fff',
   },
   receiveButton: {
-    borderLeftWidth: 1,
+    // borderLeftWidth: 1,
   },
+  activeTab: {
+    borderBottomWidth: 2,
+    borderColor: '#fff',
+  }
 });
 
 export default class Footer extends Component {
@@ -41,46 +72,73 @@ export default class Footer extends Component {
     onReceivePress: PropTypes.func.isRequired,
     onSendPress: PropTypes.func.isRequired,
     onSettingPress: PropTypes.func.isRequired,
+    activeTab: PropTypes.string.isRequired,
   };
 
   render() {
-    const { onReceivePress, onSendPress, onSettingPress } = this.props;
+    const { onReceivePress, onSendPress, onSettingPress, activeTab } = this.props;
+
+    let activeTabStyle = [styles.button, styles.activeTab];
+    let normalTabStyle = [styles.button];
 
     return (
-      <View style={styles.container}>
-        <TouchableOpacity
-          onPress={onReceivePress}
-          style={[styles.button, styles.sendButton]}
-        >
-          <Image style={styles.buttonIcon} source={qrcodeIcon} />
-          <Text style={styles.buttonText}>Home</Text>
-        </TouchableOpacity>
-        
+      <LinearGradient
+                colors={['#7f0fc9', '#4d00ff']}
+                locations={[0, 1]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.gradientHeader}
+              >
+        <View style={styles.container}>
+          <TouchableOpacity
+            onPress={onReceivePress}
+            style={activeTab === "home" ? activeTabStyle : normalTabStyle}
+          >
+            <Image style={styles.buttonIcon} source={qrcodeIcon} />
+            <Text style={styles.buttonText}>Home</Text>
+          </TouchableOpacity>
+          
 
-        <TouchableOpacity
-          onPress={onSendPress}
-          style={[styles.button, styles.receiveButton]}
-        >
-          <Image style={styles.buttonIcon} source={sendIcon} />
-          <Text style={styles.buttonText}>Send</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={onSendPress}
+            style={activeTab === "send" ? activeTabStyle : normalTabStyle}
+          >
+            <Image style={styles.buttonIcon} source={sendIcon} />
+            <Text style={styles.buttonText}>Send</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={onReceivePress}
-          style={[styles.button, styles.receiveButton]}
-        >
-          <Image style={styles.buttonIcon} source={qrcodeIcon} />
-          <Text style={styles.buttonText}>Receive</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={onReceivePress}
+            style={activeTab === "receive" ? activeTabStyle : normalTabStyle}
+          >
+            <Image style={styles.buttonIcon} source={qrcodeIcon} />
+            <Text style={styles.buttonText}>Receive</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={onSettingPress}
-          style={[styles.button, styles.receiveButton]}
-        >
-          <Image source={settingsIcon} style={styles.buttonIcon} />
-          <Text style={styles.buttonText}>Settings</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            onPress={onSettingPress}
+            style={activeTab === "settings" ? activeTabStyle : normalTabStyle}
+          >
+            <Image source={settingsIcon} style={styles.buttonIcon} />
+            <Text style={styles.buttonText}>Settings</Text>
+          </TouchableOpacity>
+          
+        </View>
+        <LinearGradient
+            colors={['rgba(127,15,201,0.7)', 'rgba(77,0,255,0.7)']}
+            locations={[0, 1]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.gradientHeaderShadow}
+          ></LinearGradient>
+          <LinearGradient
+            colors={['rgba(127,15,201,0.5)', 'rgba(77,0,255,0.5)']}
+            locations={[0, 1]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.gradientHeaderShadowTwo}
+          ></LinearGradient>
+      </LinearGradient>
     );
   }
 }
