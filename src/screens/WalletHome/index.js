@@ -7,9 +7,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import {
   BalanceRow,
   CallToAction,
-  Footer,
   TransactionsList,
 } from './components';
+import Footer from '../UIComponents/Footer/index';
 import { SET_CALL_TO_ACTION_DISMISSED } from '../../config/actionTypes';
 import WalletUtils from '../../utils/wallet';
 import { relative } from 'path';
@@ -274,8 +274,9 @@ class WalletHome extends Component {
             </View>
           </View>
           <Footer
-            activeTab="send"
+            activeTab="home"
             onReceivePress={() => this.props.navigation.navigate('Receive')}
+            onHomePress={() => this.props.navigation.navigate('WalletHome')}
             onSendPress={() =>
               this.props.navigation.navigate('Send', {
                 onTokenChange: this.onTokenChange,

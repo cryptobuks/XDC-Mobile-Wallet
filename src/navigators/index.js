@@ -1,4 +1,8 @@
-import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
+import { 
+  createStackNavigator, 
+  createSwitchNavigator,
+} from 'react-navigation';
+import {Easing, Animated} from 'react-native';
 import {
   AddTokenScreen,
   AppLoadingScreen,
@@ -16,6 +20,7 @@ import {
   WalletReceiveScreen,
   WalletSendScreen,
 } from '../screens';
+
 
 const WelcomeNavigator = createStackNavigator(
   {
@@ -67,6 +72,12 @@ const WalletMainNavigator = createStackNavigator(
     Settings: {
       screen: SettingsScreen,
     },
+    Receive: {
+      screen: WalletReceiveScreen,
+    },
+    Send: {
+      screen: WalletSendScreen,
+    },
     TokenPicker: {
       screen: TokenPickerScreen,
     },
@@ -77,6 +88,16 @@ const WalletMainNavigator = createStackNavigator(
     },
     headerMode: 'none',
     initialRouteName: 'WalletHome',
+    navigationOptions: {
+      gesturesEnabled: false,
+    },
+    transitionConfig : () => ({
+      transitionSpec: {
+        duration: 0,
+        timing: Animated.timing,
+        easing: Easing.step0,
+      },
+    }),
   },
 );
 
