@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, View, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
-import { Text } from '../../../../components';
+import { Text } from '../../../components';
 import sendIcon from './images/send.png';
 import qrcodeIcon from './images/qrcode.png';
 import settingsIcon from './images/settings.png';
@@ -67,16 +67,17 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class Footer extends Component {
+class Footer extends Component {
   static propTypes = {
     onReceivePress: PropTypes.func.isRequired,
     onSendPress: PropTypes.func.isRequired,
+    onHomePress: PropTypes.func.isRequired,
     onSettingPress: PropTypes.func.isRequired,
     activeTab: PropTypes.string.isRequired,
   };
 
   render() {
-    const { onReceivePress, onSendPress, onSettingPress, activeTab } = this.props;
+    const { onReceivePress, onSendPress, onHomePress, onSettingPress, activeTab } = this.props;
 
     let activeTabStyle = [styles.button, styles.activeTab];
     let normalTabStyle = [styles.button];
@@ -91,7 +92,7 @@ export default class Footer extends Component {
               >
         <View style={styles.container}>
           <TouchableOpacity
-            onPress={onReceivePress}
+            onPress={onHomePress}
             style={activeTab === "home" ? activeTabStyle : normalTabStyle}
           >
             <Image style={styles.buttonIcon} source={qrcodeIcon} />
@@ -124,7 +125,7 @@ export default class Footer extends Component {
           </TouchableOpacity>
           
         </View>
-        <LinearGradient
+        {/* <LinearGradient
             colors={['rgba(127,15,201,0.7)', 'rgba(77,0,255,0.7)']}
             locations={[0, 1]}
             start={{ x: 0, y: 0 }}
@@ -137,8 +138,11 @@ export default class Footer extends Component {
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.gradientHeaderShadowTwo}
-          ></LinearGradient>
+          ></LinearGradient> */}
       </LinearGradient>
     );
   }
 }
+
+
+export default Footer;

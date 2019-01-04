@@ -9,13 +9,14 @@ import {
   SecondaryButton,
   Text,
 } from '../../components';
+import Footer from '../UIComponents/Footer/index';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
-    paddingBottom: 15,
+    paddingBottom: 0,
   },
   qrcodeContainer: {
     alignItems: 'center',
@@ -81,6 +82,17 @@ class WalletReceive extends Component {
               text="Share"
             />
           </View>
+          <Footer
+            activeTab="receive"
+            onReceivePress={() => this.props.navigation.navigate('Receive')}
+            onHomePress={() => this.props.navigation.navigate('WalletHome')}
+            onSendPress={() =>
+              this.props.navigation.navigate('Send', {
+                onTokenChange: this.onTokenChange,
+              })
+            }
+            onSettingPress={() => this.props.navigation.navigate('Settings')}
+          />
         </SafeAreaView>
       </GradientBackground>
     );

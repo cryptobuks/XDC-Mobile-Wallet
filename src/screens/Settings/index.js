@@ -5,13 +5,14 @@ import PropTypes from 'prop-types';
 import { GradientBackground, Header, Menu, Text } from '../../components';
 import { LOGOUT } from '../../config/actionTypes';
 import { persistor } from '../../config/store';
+import Footer from '../UIComponents/Footer/index';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
-    paddingBottom: 15,
+    paddingBottom: 0,
   },
   networkNameContainer: {
     alignItems: 'center',
@@ -107,6 +108,17 @@ class Settings extends Component {
               Connected to {this.getNetworkName()}
             </Text>
           </View>
+          <Footer
+            activeTab="settings"
+            onReceivePress={() => this.props.navigation.navigate('Receive')}
+            onHomePress={() => this.props.navigation.navigate('WalletHome')}
+            onSendPress={() =>
+              this.props.navigation.navigate('Send', {
+                onTokenChange: this.onTokenChange,
+              })
+            }
+            onSettingPress={() => this.props.navigation.navigate('Settings')}
+          />
         </SafeAreaView>
       </GradientBackground>
     );

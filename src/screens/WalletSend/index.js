@@ -7,13 +7,14 @@ import { GradientBackground, Header, SecondaryButton } from '../../components';
 import Form from './components/Form';
 import AnalyticsUtils from '../../utils/analytics';
 import WalletUtils from '../../utils/wallet';
+import Footer from '../UIComponents/Footer/index';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
-    paddingBottom: 15,
+    paddingBottom: 0,
   },
   buttonContainer: {
     paddingHorizontal: 15,
@@ -131,6 +132,17 @@ class WalletSend extends Component {
               text="Send"
             />
           </View>
+          <Footer
+            activeTab="send"
+            onReceivePress={() => this.props.navigation.navigate('Receive')}
+            onHomePress={() => this.props.navigation.navigate('WalletHome')}
+            onSendPress={() =>
+              this.props.navigation.navigate('Send', {
+                onTokenChange: this.onTokenChange,
+              })
+            }
+            onSettingPress={() => this.props.navigation.navigate('Settings')}
+          />
         </SafeAreaView>
       </GradientBackground>
     );
