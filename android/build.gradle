@@ -8,6 +8,19 @@ buildscript {
         targetSdkVersion = 26
         supportLibVersion = "27.1.1"
     }
+    subprojects {
+  project.configurations.all {
+      afterEvaluate {project ->
+        if (project.hasProperty("android")) {
+            android {
+                compileSdkVersion 26
+                buildToolsVersion '26.0.2'
+            }
+        }
+    }
+  }
+}
+
     repositories {
         google()
         jcenter()
