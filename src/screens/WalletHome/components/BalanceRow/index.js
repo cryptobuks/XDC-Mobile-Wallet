@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Text } from '../../../../components';
 
-import switchIcon from './images/switch.png';
+import switchIcon from './images/add.png';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 20,
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
     width: '100%',
     backgroundColor: 'transparent',
   },
@@ -22,16 +22,17 @@ const styles = StyleSheet.create({
   },
   balance: {
     color: '#fff',
-    fontSize: 16,
-    letterSpacing: 3,
+    fontSize: 20,
+    fontWeight: 'bold',
+    letterSpacing: 1,
     paddingRight: 5,
   },
   coinSymbol: {
     alignSelf: 'flex-end',
     color: '#fff',
     fontSize: 15,
-    letterSpacing: 3,
-    paddingBottom: 4,
+    paddingBottom: 2,
+    paddingLeft: 10,
   },
   iconsContainer: {
     flexDirection: 'row',
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
 
 class BalanceRow extends Component {
   static propTypes = {
-    currentBalance: PropTypes.number.isRequired,
+    currentBalance: PropTypes.object.isRequired,
     selectedToken: PropTypes.shape({
       name: PropTypes.string.isRequired,
       symbol: PropTypes.string.isRequired,
@@ -72,7 +73,7 @@ class BalanceRow extends Component {
         
         <View style={styles.balanceContainer}>
           <Text style={styles.balance} letterSpacing={1}>
-            {currentBalance.toFixed(2)}
+            {currentBalance.usdBalance.toFixed(2)}
           </Text>
           <Text style={styles.coinSymbol} letterSpacing={2}>
             {selectedToken.symbol}

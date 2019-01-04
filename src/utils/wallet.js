@@ -87,7 +87,7 @@ export default class WalletUtils {
   static getEtherscanApiSubdomain() {
     switch (store.getState().network) {
       default:
-        return 'api';
+        return 'ropsten';
     }
   }
 
@@ -175,6 +175,7 @@ export default class WalletUtils {
     )
       .then(response => response.json())
       .then(data => {
+        console.log('transactions::',data)
         if (data.message !== 'OK') {
           return [];
         }
@@ -223,6 +224,7 @@ export default class WalletUtils {
 
     return new Promise((resolve, reject) => {
       var MyContract = web3.eth.contract(contractAbi);
+      // get ether balance
       web3.eth.getBalance(walletAddress, function(e, r) {
         console.log('getbalance eth', r);
         console.log('getbalance ree', r / Math.pow(10, 18));
@@ -239,13 +241,28 @@ export default class WalletUtils {
           reject(error);
         }
 
+        let balanceData = {};
         const balance = weiBalance / Math.pow(10, 18);
+        let usdBalance = null;
+        console.log('fetch started')
+        fetch(`https://api.coinmarketcap.com/v2/ticker/2634/?convert=USD`)
+          .then(res => res.json())
+          .then(function(response) {
+            console.log(response);
+            usdBalance = response.data.quotes.USD.price * balance;
+            balanceData = {
+              'balance': balance,
+              'usdBalance': usdBalance
+            };
+            console.log('balanceData:', balanceData);
+            resolve(balanceData);
+          })
+          .catch(error => console.error('Error:', error));
 
+        
         AnalyticsUtils.trackEvent('Get ETH balance', {
           balance,
         });
-
-        resolve(balance);
       });
 
 

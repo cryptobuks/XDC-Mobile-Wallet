@@ -8,6 +8,7 @@ const defaultTokens = [
     symbol: 'XDC',
     contractAddress: contractAddress,
     decimals: 18,
+    currencySymbol: 'USD',
   },
 ];
 

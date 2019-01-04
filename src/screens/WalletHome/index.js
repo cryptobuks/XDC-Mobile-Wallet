@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     fontSize: 18,
     letterSpacing: 3,
-    paddingVertical: 5,
+    paddingVertical: 15,
+    paddingTop: 20,
     textAlign: 'center',
   },
   bannerContainer: {
@@ -91,7 +92,10 @@ class WalletHome extends Component {
   };
 
   state = {
-    currentBalance: 0,
+    currentBalance: {
+      'balance': 0,
+      'usdBalance': 0,
+    },
     appState: AppState.currentState,
     refreshingTransactions: false,
     transactions: [],
@@ -110,7 +114,10 @@ class WalletHome extends Component {
     ) {
       this.setState(
         {
-          currentBalance: 0,
+          currentBalance: {
+            'balance': 0,
+            'usdBalance': 0,
+          },
           transactions: [],
         },
         () => {
@@ -210,6 +217,7 @@ class WalletHome extends Component {
 
   render() {
     console.log('selectedToken', this.props.selectedToken);
+    console.log('currentBalance::::::', this.state.currentBalance);
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
