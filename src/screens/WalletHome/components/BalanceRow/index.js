@@ -76,7 +76,7 @@ class BalanceRow extends Component {
             {currentBalance.usdBalance.toFixed(2)}
           </Text>
           <Text style={styles.coinSymbol} letterSpacing={2}>
-            {selectedToken.symbol}
+            {selectedToken.currencySymbol}
           </Text>
         </View>
         

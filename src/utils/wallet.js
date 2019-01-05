@@ -175,13 +175,14 @@ export default class WalletUtils {
     )
       .then(response => response.json())
       .then(data => {
-        console.log('transactions::',data)
+        console.log('transactions api::',data)
         if (data.message !== 'OK') {
           return [];
         }
 
         return data.result.map(t => ({
           from: t.from,
+          to: t.to,
           timestamp: t.timeStamp,
           transactionHash: t.hash,
           value: (parseInt(t.value, 10) / Math.pow(10, decimals)).toFixed(2),
@@ -306,12 +307,12 @@ export default class WalletUtils {
         const txParams = {
           nonce: data,
           chainID: 3,
-          gasPrice: '0x04e3',
+          gasPrice: '0x5208',
           gasLimit: '0x1358E',
           to: contractAddress,
           data: web3.eth.contract(contractAbi).
             at(contractAddress)
-            .transfer.getData(toAddress, amount, { from: walletAddress })
+            .transfer.getData(toAddress, amount * decimals, { from: walletAddress })
         }
 
         const tx = new EthereumTx(txParams)

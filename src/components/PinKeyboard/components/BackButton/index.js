@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, TouchableOpacity, Platform, Alert } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, Platform, Alert, View } from 'react-native';
 import PropTypes from 'prop-types';
 import FingerprintScanner from 'react-native-fingerprint-scanner';
+import Modal from 'react-native-modal';
 import DialogAndroid from 'react-native-dialogs';
 import Text from '../../../Text';
 import arrowIcon from './images/arrow.png';
@@ -29,6 +30,12 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
   },
+  ModalItem: {
+    color: '#000',
+  },
+  ModalItemTitle: {
+    color: '#000',
+  }
 });
 
 export default class PinKeyboard extends Component {
@@ -44,7 +51,12 @@ export default class PinKeyboard extends Component {
 
   state = {
     isTouchIdSupported: false,
+    isModalVisible: false,
   };
+
+  toggleModal = () => {
+    this.setState({ isModalVisible: !this.state.isModalVisible});
+  }
 
   componentDidMount() {
     if (this.props.onAuthSuccess) {
@@ -53,6 +65,20 @@ export default class PinKeyboard extends Component {
   }
 
   onTouchIdClick = async () => {
+    this.toggleModal();
+    let modalAlert =  <Modal 
+                        onBackdropPress={() => this.toggleModal(null)}
+                        isVisible={this.state.isModalVisible} 
+                        style={styles.ModalContainer}>
+                        <View style={styles.ModalView}>
+                          <Text style={styles.ModalItem}>
+                            <Text style={styles.ModalItemTitle}>Authentication Required</Text>
+                          </Text>
+                          <Text style={styles.ModalItem}>
+                            <Text style={styles.ModalItemTitle}>Touch fingerprint sensor to unlock your wallet</Text>
+                          </Text>
+                        </View>
+                      </Modal>
     try {
       if (Platform.OS === 'android') {
         console.log('platform.os')
@@ -60,6 +86,8 @@ export default class PinKeyboard extends Component {
           'Authentication Required',
           "Touch fingerprint sensor to unlock your wallet",
         );
+
+        // modalAlert
 
         await FingerprintScanner.authenticate({
           onAttempt: () => {},

@@ -80,6 +80,7 @@ class AddToken extends Component {
       decimals: parseInt(this.state.decimals, 10),
       name: this.state.name,
       symbol: this.state.symbol,
+      currencySymbol: 'USD',
     };
 
     this.props.addToken(token);

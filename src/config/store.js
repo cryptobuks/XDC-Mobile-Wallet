@@ -18,12 +18,12 @@ const migrations = {
 
 const storage = createSensitiveStorage({
   encrypt: true,
-  keychainService: 'eltwallet',
-  sharedPreferencesName: 'eltwallet',
+  keychainService: 'xdcwallet',
+  sharedPreferencesName: 'xdcwallet',
 });
 
 const persistConfig = {
-  key: 'eltwallet',
+  key: 'xdcwallet',
   version: 1,
   storage: AsyncStorage,
   migrate: createMigrate(migrations, { debug: false }),

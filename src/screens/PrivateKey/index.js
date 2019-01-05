@@ -59,7 +59,7 @@ class PrivateKey extends Component {
               onPress={() => {
                 Share.share({
                   message: this.props.privateKey,
-                  title: 'My Eltwallet private key',
+                  title: 'My XDCwallet private key',
                 });
               }}
               text="Export"
