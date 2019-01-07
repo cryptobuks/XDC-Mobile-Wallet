@@ -18,7 +18,7 @@ class SignUp extends Component {
   };
 
 
-  signUp = () => {
+  signUp = (provider) => {
 
     let config
     let scopes
@@ -31,16 +31,29 @@ class SignUp extends Component {
           client_secret: '8HPFSWc0D0xCk2sjNrYmiV7M'
         }
       }
-      scopes = 'openid+email+profile'
+      if(provider === 'google') {
+        scopes = 'openid+email+profile'
+      } else if(provider === 'slack') {
+        scopes = 'read'
+      }
     } else if (Platform.OS === 'android') { 
       config = {
         google: {
           callback_url: `http://localhost/google`,
           client_id: '47621642897-0m87j98bjb3gmgqq1vb1sl81fsem9k62.apps.googleusercontent.com',
           client_secret: '8HPFSWc0D0xCk2sjNrYmiV7M'
+        },
+        slack: {
+          callback_url: `http://localhost/slack`,
+          client_id: '194201140770.517349407841',
+          client_secret: '1710f92423a014e039e44772f50a007d'
         }
       }
-      scopes = 'email'
+      if(provider === 'google') {
+        scopes = 'email'
+      } else if(provider === 'slack') {
+        scopes = 'read'
+      }
     }
 
     manager.configure(config);
@@ -48,24 +61,41 @@ class SignUp extends Component {
     console.log(manager);
 
     const googleUrl = 'https://www.googleapis.com/plus/v1/people/me';
+    const slackUrl = 'https://www.slack.com/api/users.identity';
 
-    manager.authorize('google', { scopes })
-      .then(
-        resp => {
+    if(provider === 'google') {
+      manager.authorize('google', { scopes })
+        .then(
+          resp => {
+            console.log(resp);
+            manager.makeRequest('google', googleUrl, resp)
+              .then(resp => {
+                console.log('Data -> ', resp.data);
+                AsyncStorage.setItem('UserEmail', resp.data.emails[0].value);
+                if(AsyncStorage.getItem('UserEmail')) {
+                  this.props.navigation.navigate('Home');
+                }
+              })
+              .catch(e => console.log(e));
+          }
+        )
+        .catch(err => console.log(err));
+    } else if(provider === 'slack') {
+      manager.authorize('slack', { scopes })
+        .then(resp => {
           console.log(resp);
-          manager.makeRequest('google', googleUrl, resp)
+          manager.makeRequest('slack', slackUrl, resp)
             .then(resp => {
-              console.log('Data -> ', resp.data);
-              AsyncStorage.setItem('UserEmail', resp.data.emails[0].value);
+              console.log(resp);
+              AsyncStorage.setItem('UserEmail', resp.data.user.email);
               if(AsyncStorage.getItem('UserEmail')) {
                 this.props.navigation.navigate('Home');
               }
             })
-            .catch(e => console.log(e));
-        }
-      )
-      .catch(err => console.log(err));
-    
+            .catch(e => console.log(e))
+        })
+        .catch(err => console.log(err))
+    }
   }
 
   render() {
@@ -77,8 +107,12 @@ class SignUp extends Component {
           </View>
           <View style={styles.buttonsContainer}>
             <PrimaryButton
-              onPress={() => this.signUp()}
+              onPress={() => this.signUp('google')}
               text="Sign Up with Google"
+            />
+            <PrimaryButton
+              onPress={() => this.signUp('slack')}
+              text="Sign Up with Slack"
             />
           </View>
         </SafeAreaView>
