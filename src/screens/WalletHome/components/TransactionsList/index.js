@@ -104,7 +104,7 @@ export default class TransactionsList extends Component {
   };
 
   toggleModal = (transactionDetails) => {
-    console.log(transactionDetails);
+    console.log('transactionDetails', transactionDetails);
     this.setState({ isModalVisible: !this.state.isModalVisible, data: transactionDetails });
   }
 
@@ -162,16 +162,16 @@ export default class TransactionsList extends Component {
               style={styles.ModalContainer}>
               <View style={styles.ModalView}>
                 <Text style={styles.ModalItem}>
-                  <Text style={styles.ModalItemTitle}>To: </Text>{item.to}
+                  <Text style={styles.ModalItemTitle}>To: </Text>{this.state.data ? this.state.data.to : ''}
                 </Text>
                 <Text style={styles.ModalItem}>
-                  <Text style={styles.ModalItemTitle}>Time: </Text>{moment(item.timestamp * 1000).fromNow()}
+                  <Text style={styles.ModalItemTitle}>Time: </Text>{this.state.data ? moment(this.state.data.timestamp * 1000).fromNow() : ''}
                 </Text>
                 <Text style={styles.ModalItem}>
-                  <Text style={styles.ModalItemTitle}>Hash: </Text>{item.transactionHash}
+                  <Text style={styles.ModalItemTitle}>Hash: </Text>{this.state.data ? this.state.data.transactionHash : ''}
                 </Text>
                 <Text style={styles.ModalItem}>
-                  <Text style={styles.ModalItemTitle}>Amount: </Text>{item.value}
+                  <Text style={styles.ModalItemTitle}>Amount: </Text>{this.state.data ? this.state.data.value : ''}
                 </Text>
                 <Text style={styles.ModalItem}>
                   <Text style={styles.ModalItemTitle}>Status: </Text>Completed

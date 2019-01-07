@@ -230,11 +230,8 @@ export default class WalletUtils {
         console.log('getbalance eth', r);
         console.log('getbalance ree', r / Math.pow(10, 18));
       });
+      
       var instancecontract = MyContract.at(contractAddress);
-      // console.log(instancecontract.name(function(res, err) {
-      //   console.log('res', res);
-      //   console.log('error', err);
-      // }));
       instancecontract.balanceOf(walletAddress, function (error, weiBalance) {
         console.log('getbalance p', weiBalance);
         console.log('getbalance r', weiBalance / Math.pow(10, 18));
@@ -364,15 +361,6 @@ export default class WalletUtils {
       contractAddress,
       value: amount,
     });
-
-    // let data = web3.eth.contract(erc20Abi).
-    //               at("0x7b7b74e20ed121058ffb5ede69346b9f729a7cab")
-    //               .transfer(toAddress, amount * Math.pow(10, decimals)
-    // let  obj1 = {
-    //     nonce: "",
-    //     gas: 470000,
-    //     data: 
-    //   }
 
     return new Promise((resolve, reject) => {
 

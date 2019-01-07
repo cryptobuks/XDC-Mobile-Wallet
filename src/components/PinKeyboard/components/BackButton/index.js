@@ -3,10 +3,10 @@ import { Image, StyleSheet, TouchableOpacity, Platform, View } from 'react-nativ
 import PropTypes from 'prop-types';
 import FingerprintScanner from 'react-native-fingerprint-scanner';
 import Modal from 'react-native-modal';
-import DialogAndroid from 'react-native-dialogs';
 import Text from '../../../Text';
 import arrowIcon from './images/arrow.png';
 import touchIdIcon from './images/touchid.png';
+import fingerPrint from './images/fingerPrint.png'
 
 const styles = StyleSheet.create({
   keyboardKey: {
@@ -30,6 +30,15 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
   },
+  fingerPrintWrap: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
+  fingerPrint: {
+    height: 60,
+    width: 60,
+  },
   AuthModalItem: {
     color: '#000',
     paddingVertical: 5,
@@ -37,9 +46,10 @@ const styles = StyleSheet.create({
   AuthModalItemTitle: {
     color: '#000',
     fontSize: 18,
+    textAlign: 'center',
   },
   AuthModalContainer: {
-    backgroundColor:"rgba(0,0,0,0.1)",
+    backgroundColor:"#fff",
   },
   AuthModalView: {
     backgroundColor:'#fff',
@@ -50,7 +60,8 @@ const styles = StyleSheet.create({
     color: '#4d00ff',
     fontSize: 18,
     fontWeight: 'bold',
-    textAlign: 'right',
+    textAlign: 'center',
+    paddingVertical: 20,
   }
 });
 
@@ -144,22 +155,20 @@ export default class PinKeyboard extends Component {
             <Image source={touchIdIcon} style={styles.touchIdIcon} />
           </TouchableOpacity>
 
-          <Modal 
-          onBackdropPress={() => this.toggleModal()}
+          <Modal
           isVisible={this.state.isModalVisible} 
           style={styles.AuthModalContainer}>
           <View style={styles.AuthModalView}>
-            <Text style={styles.AuthModalItem}>
-              <Text style={styles.AuthModalItemTitle}>Authentication Required</Text>
-            </Text>
-            <Text style={styles.AuthModalItem}>
-              <Text style={styles.AuthModalItemTitle}>Touch fingerprint sensor to unlock your wallet</Text>
-            </Text>
+            <View style={styles.fingerPrintWrap}>
+              <Image source={fingerPrint} style={styles.fingerPrint} />
+            </View>
+            <Text style={styles.AuthModalClose}>Fingerprint Authentication</Text>
+            <Text style={styles.AuthModalItemTitle}>Touch fingerprint sensor to unlock your wallet</Text>
             <TouchableOpacity
               style={styles.AuthModalItemTitle}
               onPress={() => this.toggleModal()}
             >
-              <Text style={styles.AuthModalClose}>Ok</Text>
+              <Text style={styles.AuthModalClose}>Use MPIN to Unlock</Text>
             </TouchableOpacity>
           </View>
           </Modal>
