@@ -57,10 +57,10 @@ const appReducer = (state = defaultState, action) => {
       return {
         ...state,
         availableTokens: state.availableTokens.filter(
-          token => token.name === 'XDCe',
+          token => token.name === 'XDC',
         ),
         selectedToken: state.availableTokens.filter(
-          token => token.name === 'XDCe',
+          token => token.name === 'XDC',
         )[0],
       };
     case SET_CALL_TO_ACTION_DISMISSED:

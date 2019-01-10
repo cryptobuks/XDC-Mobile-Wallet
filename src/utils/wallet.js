@@ -75,17 +75,51 @@ export default class WalletUtils {
     return EthereumJsWallet.fromPrivateKey(Buffer.from(privateKey, 'hex'));
   }
 
+  // static getWeb3HTTPProvider() {
+  //   switch (store.getState().network) {
+  //     default:
+  //       return new Web3.providers.HttpProvider(
+  //         "https://ropsten.infura.io/v3/f060477f35da4c4b85e403b978b17d55"
+  //         );
+  //   }
+  // }
+
+  // static getEtherscanApiSubdomain() {
+  //   switch (store.getState().network) {
+  //     default:
+  //       return 'ropsten';
+  //   }
+  // }
+
   static getWeb3HTTPProvider() {
     switch (store.getState().network) {
+      case 'ropsten':
+        return new Web3.providers.HttpProvider(
+          `https://ropsten.infura.io/${Config.INFURA_API_KEY}`,
+        );
+      case 'kovan':
+        return new Web3.providers.HttpProvider(
+          `https://kovan.infura.io/${Config.INFURA_API_KEY}`,
+        );
+      case 'rinkeby':
+        return new Web3.providers.HttpProvider(
+          `https://rinkeby.infura.io/${Config.INFURA_API_KEY}`,
+        );
       default:
         return new Web3.providers.HttpProvider(
-          "https://ropsten.infura.io/v3/f060477f35da4c4b85e403b978b17d55"
-          );
+          "https://ropsten.infura.io/v3/f060477f35da4c4b85e403b978b17d55",
+        );
     }
   }
 
   static getEtherscanApiSubdomain() {
     switch (store.getState().network) {
+      case 'ropsten':
+        return 'api-ropsten';
+      case 'kovan':
+        return 'api-kovan';
+      case 'rinkeby':
+        return 'api-rinkeby';
       default:
         return 'ropsten';
     }

@@ -30,24 +30,24 @@ class NetworkPicker extends Component {
       title: 'XDC Mainnet',
       onPress: () => this.setNetwork('mainnet'),
     },
-    // {
-    //   title: 'ETH Ropsten',
-    //   onPress: () => this.setNetwork('ropsten'),
-    // },
-    // {
-    //   title: 'ETH Kovan',
-    //   onPress: () => this.setNetwork('kovan'),
-    // },
-    // {
-    //   title: 'ETH Rinkeby',
-    //   onPress: () => this.setNetwork('rinkeby'),
-    // },
+    {
+      title: 'XDC Ropsten',
+      onPress: () => this.setNetwork('ropsten'),
+    },
+    {
+      title: 'XDC Kovan',
+      onPress: () => this.setNetwork('kovan'),
+    },
+    {
+      title: 'XDC Rinkeby',
+      onPress: () => this.setNetwork('rinkeby'),
+    },
   ];
 
   setNetwork = network => {
     Alert.alert(
       'Change network',
-      'Switching to another ETH network will reset your list of custom tokens, are you sure you want to continue?',
+      'Switching to another XDC network will reset your list of custom tokens, are you sure you want to continue?',
       [
         {
           text: 'Cancel',
@@ -59,7 +59,7 @@ class NetworkPicker extends Component {
           onPress: async () => {
             this.props.resetTokens();
             this.props.onNetworkChange(network);
-
+            console.log(network, 'network');
             const resetAction = StackActions.reset({
               index: 0,
               actions: [

@@ -7,6 +7,7 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  Picker
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import PropTypes from 'prop-types';
@@ -54,7 +55,12 @@ export default class Form extends Component {
     onNameChange: PropTypes.func.isRequired,
     onSymbolChange: PropTypes.func.isRequired,
     symbol: PropTypes.string.isRequired,
+    network: PropTypes.string.isRequired,
   };
+
+  state = {
+    language: 'default',
+  }
 
   render() {
     const {
@@ -67,6 +73,7 @@ export default class Form extends Component {
       onNameChange,
       onSymbolChange,
       symbol,
+      network,
     } = this.props;
 
     const ScrollContainer =
@@ -167,6 +174,15 @@ export default class Form extends Component {
               value={decimals}
             />
           </View>
+        </View>
+        <View style={styles.formElement}>
+          <Picker
+            selectedValue={this.state.language}
+            style={styles.formInput }
+            onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}>
+            <Picker.Item label="Mainnet" value="mainnet" />
+            <Picker.Item label="Ropsten" value="ropsten" />
+          </Picker>
         </View>
       </ScrollContainer>
     );

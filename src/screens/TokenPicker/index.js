@@ -28,11 +28,16 @@ class TokenPicker extends Component {
     }).isRequired,
     onDeleteToken: PropTypes.func.isRequired,
     onTokenChange: PropTypes.func.isRequired,
+    network: PropTypes.string.isRequired,
   };
 
-  render() {
+  render() {  
+    const currentNetwork = this.props.network;
+    console.log(this.props.availableTokens)
     const menuOptions = [
-      ...this.props.availableTokens.map(token => ({
+      ...this.props.availableTokens.
+      filter(token => token.network === currentNetwork).
+      map(token => ({
         onDeletePress: () => {
           this.props.onDeleteToken(token);
         },
@@ -67,6 +72,7 @@ class TokenPicker extends Component {
 
 const mapStateToProps = state => ({
   availableTokens: state.availableTokens,
+  network: state.network,
 });
 
 const mapDispatchToProps = dispatch => ({

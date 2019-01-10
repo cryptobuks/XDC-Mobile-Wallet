@@ -9,6 +9,16 @@ const defaultTokens = [
     contractAddress: contractAddress,
     decimals: 18,
     currencySymbol: 'USD',
+    network: 'mainnet',
+  },
+  {
+    name: 'ELT',
+    id: uuid.v4(),
+    symbol: 'ELT',
+    contractAddress: contractAddress,
+    decimals: 18,
+    currencySymbol: 'USD',
+    network: 'ropsten',
   },
 ];
 
