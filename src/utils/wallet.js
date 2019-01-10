@@ -314,6 +314,7 @@ export default class WalletUtils {
     amount,
   ) {
     console.log(contractAddress, symbol, decimals, toAddress, amount)
+    
     return this.sendETHTransaction(contractAddress, decimals, toAddress, amount);
   }
 
@@ -327,41 +328,49 @@ export default class WalletUtils {
   static sendETHTransaction(contractAddress, decimals, toAddress, amount) {
     const { walletAddress, privateKey } = store.getState();
     const web3 = this.getWeb3Instance();
-
+    
+    
     AnalyticsUtils.trackEvent('Send ETH transaction', {
       value: amount,
     });
 
     return new Promise((resolve, reject) => {
-      web3.eth.getTransactionCount(walletAddress, function (error, data) {
-        console.log('data:::', data);
-        const txParams = {
-          nonce: data,
-          chainID: 3,
-          gasPrice: '0x5208',
-          gasLimit: '0x1358E',
-          to: contractAddress,
-          data: web3.eth.contract(contractAbi).
-            at(contractAddress)
-            .transfer.getData(toAddress, amount * decimals, { from: walletAddress })
-        }
-
-        const tx = new EthereumTx(txParams)
-
-        console.log('tx:::', tx);
-        tx.sign(Buffer.from(privateKey, 'hex'));
-        const serializedTx = tx.serialize();
-        console.log('serial', serializedTx);
-        web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'), function (err, hash) {
-          if (!err) {
-            console.log('hash', hash);
-            resolve(hash);
-          } else {
-            console.log('err', err);
-            reject(err);
+      web3.eth.estimateGas({
+        to: contractAddress,
+        data:"0xa9059cbb000000000000000000000000a47a53ceb5098ec6a38d76395ed4f7e3e391048e000000000000000000000000000000000000000000000000000000000000007b"
+      }, function(err, gasLimit) {
+        console.log('err gas price:', err)
+        console.log('err gas price:', gasLimit)
+        web3.eth.getTransactionCount(walletAddress, function (error, data) {
+          console.log('data:::', data);
+          const txParams = {
+            nonce: data,
+            chainID: 3,
+            gasPrice: gasPrice.toString(10),
+            gasLimit: gasLimit,
+            to: contractAddress,
+            data: web3.eth.contract(contractAbi).
+              at(contractAddress)
+              .transfer.getData(toAddress, amount * Math.pow(10, decimals), { from: walletAddress })
           }
+  
+          const tx = new EthereumTx(txParams)
+  
+          console.log('tx:::', tx);
+          tx.sign(Buffer.from(privateKey, 'hex'));
+          const serializedTx = tx.serialize();
+          console.log('serial', serializedTx);
+          web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'), function (err, hash) {
+            if (!err) {
+              console.log('hash', hash);
+              resolve(hash);
+            } else {
+              console.log('err', err);
+              reject(err);
+            }
+          });
+  
         });
-
       });
     });
 
