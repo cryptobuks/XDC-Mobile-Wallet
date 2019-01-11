@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GradientBackground, Header, Menu } from '../../components';
@@ -33,7 +33,8 @@ class TokenPicker extends Component {
 
   render() {  
     const currentNetwork = this.props.network;
-    console.log(this.props.availableTokens)
+    console.log('list of tokens:', this.props.availableTokens);
+    
     const menuOptions = [
       ...this.props.availableTokens.
       filter(token => token.network === currentNetwork).

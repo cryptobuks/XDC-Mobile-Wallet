@@ -1,4 +1,5 @@
 import uuid from 'react-native-uuid';
+import {AsyncStorage} from 'react-native';
 import {
   ADD_TOKEN,
   DELETE_TOKEN,
@@ -20,6 +21,12 @@ const defaultState = {
   selectedToken: defaultTokens[0],
   network: 'mainnet',
 };
+
+AsyncStorage.setItem('availableTokens', JSON.stringify(defaultState.availableTokens));
+AsyncStorage.getItem('availableTokens')
+  .then(r=>console.log('before state change 1:::',JSON.parse(r)))
+  .catch(e=>console.log(e));
+
 
 const appReducer = (state = defaultState, action) => {
   switch (action.type) {
@@ -43,7 +50,7 @@ const appReducer = (state = defaultState, action) => {
                 }
               : {},
           ),
-        ]),
+        ], AsyncStorage.setItem('availableTokens', JSON.stringify(defaultState.availableTokens))),
       };
     case DELETE_TOKEN:
       return {

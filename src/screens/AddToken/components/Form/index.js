@@ -54,6 +54,7 @@ export default class Form extends Component {
     onDecimalsChange: PropTypes.func.isRequired,
     onNameChange: PropTypes.func.isRequired,
     onSymbolChange: PropTypes.func.isRequired,
+    onNetworkChange: PropTypes.func.isRequired,
     symbol: PropTypes.string.isRequired,
     network: PropTypes.string.isRequired,
   };
@@ -72,6 +73,7 @@ export default class Form extends Component {
       onDecimalsChange,
       onNameChange,
       onSymbolChange,
+      onNetworkChange,
       symbol,
       network,
     } = this.props;
@@ -177,9 +179,9 @@ export default class Form extends Component {
         </View>
         <View style={styles.formElement}>
           <Picker
-            selectedValue={this.state.language}
+            selectedValue={network}
             style={styles.formInput }
-            onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}>
+            onValueChange={onNetworkChange}>
             <Picker.Item label="Mainnet" value="mainnet" />
             <Picker.Item label="Ropsten" value="ropsten" />
           </Picker>
