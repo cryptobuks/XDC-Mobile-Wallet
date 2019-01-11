@@ -209,7 +209,7 @@ export default class WalletUtils {
     )
       .then(response => response.json())
       .then(data => {
-        console.log('transactions api::',data)
+        console.log('transactions api::', data)
         if (data.message !== 'OK') {
           return [];
         }
@@ -239,12 +239,12 @@ export default class WalletUtils {
    *
    * @param {Object} token
    */
-  static getBalance({contractAddress, symbol, decimals}) {
+  static getBalance({ contractAddress, symbol, decimals }) {
     console.log('2', contractAddress);
     console.log('3', decimals);
-    
-      return this.getERC20Balance(contractAddress, decimals);
-    
+
+    return this.getERC20Balance(contractAddress, decimals);
+
   }
 
   /**
@@ -260,11 +260,11 @@ export default class WalletUtils {
     return new Promise((resolve, reject) => {
       var MyContract = web3.eth.contract(contractAbi);
       // get ether balance
-      web3.eth.getBalance(walletAddress, function(e, r) {
+      web3.eth.getBalance(walletAddress, function (e, r) {
         console.log('getbalance eth', r);
         console.log('getbalance ree', r / Math.pow(10, 18));
       });
-      
+
       var instancecontract = MyContract.at(contractAddress);
       instancecontract.balanceOf(walletAddress, function (error, weiBalance) {
         console.log('getbalance p', weiBalance);
@@ -279,7 +279,7 @@ export default class WalletUtils {
         console.log('fetch started')
         fetch(`https://api.coinmarketcap.com/v2/ticker/2634/?convert=USD`)
           .then(res => res.json())
-          .then(function(response) {
+          .then(function (response) {
             console.log(response);
             usdBalance = response.data.quotes.USD.price * balance;
             balanceData = {
@@ -291,7 +291,7 @@ export default class WalletUtils {
           })
           .catch(error => console.error('Error:', error));
 
-        
+
         AnalyticsUtils.trackEvent('Get ETH balance', {
           balance,
         });
@@ -314,7 +314,7 @@ export default class WalletUtils {
     amount,
   ) {
     console.log(contractAddress, symbol, decimals, toAddress, amount)
-    
+
     return this.sendETHTransaction(contractAddress, decimals, toAddress, amount);
   }
 
@@ -328,48 +328,55 @@ export default class WalletUtils {
   static sendETHTransaction(contractAddress, decimals, toAddress, amount) {
     const { walletAddress, privateKey } = store.getState();
     const web3 = this.getWeb3Instance();
-    
-    
+
+
     AnalyticsUtils.trackEvent('Send ETH transaction', {
       value: amount,
     });
 
     return new Promise((resolve, reject) => {
-      web3.eth.estimateGas({
-        to: contractAddress,
-        data:"0xa9059cbb000000000000000000000000a47a53ceb5098ec6a38d76395ed4f7e3e391048e000000000000000000000000000000000000000000000000000000000000007b"
-      }, function(err, gasLimit) {
-        console.log('err gas price:', err)
-        console.log('err gas price:', gasLimit)
-        web3.eth.getTransactionCount(walletAddress, function (error, data) {
-          console.log('data:::', data);
-          const txParams = {
-            nonce: data,
-            chainID: 3,
-            gasPrice: gasPrice.toString(10),
-            gasLimit: gasLimit,
-            to: contractAddress,
-            data: web3.eth.contract(contractAbi).
-              at(contractAddress)
-              .transfer.getData(toAddress, amount * Math.pow(10, decimals), { from: walletAddress })
-          }
-  
-          const tx = new EthereumTx(txParams)
-  
-          console.log('tx:::', tx);
-          tx.sign(Buffer.from(privateKey, 'hex'));
-          const serializedTx = tx.serialize();
-          console.log('serial', serializedTx);
-          web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'), function (err, hash) {
-            if (!err) {
-              console.log('hash', hash);
-              resolve(hash);
-            } else {
-              console.log('err', err);
-              reject(err);
+
+      web3.eth.getGasPrice(function (error, gasPrice) {
+        console.log('zsdrmfgjmnbdxrjkgnjkdx', error, gasPrice/Math.pow(10,18));
+        web3.eth.estimateGas({
+          to: contractAddress,
+          data: web3.eth.contract(contractAbi).
+          at(contractAddress)
+          .transfer.getData(toAddress, amount * Math.pow(10, decimals), { from: walletAddress })
+        }, function (err, gasLimit) {
+          console.log('err gas limit:', err)
+          console.log('err gas limit:', gasLimit)
+          web3.eth.getTransactionCount(walletAddress, function (error, data) {
+            console.log('data:::', data);
+            const txParams = {
+              nonce: data,
+              chainID: 3,
+              gasPrice: "0x170cdc1e00",
+              // gasLimit: "0x05c30a",
+              gasLimit: gasLimit,
+              to: contractAddress,
+              data: web3.eth.contract(contractAbi).
+                at(contractAddress)
+                .transfer.getData(toAddress, amount * Math.pow(10, decimals), { from: walletAddress })
             }
+
+            const tx = new EthereumTx(txParams)
+
+            console.log('tx:::', tx);
+            tx.sign(Buffer.from(privateKey, 'hex'));
+            const serializedTx = tx.serialize();
+            console.log('serial', serializedTx);
+            web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'), function (err, hash) {
+              if (!err) {
+                console.log('hash', hash);
+                resolve(hash);
+              } else {
+                console.log('err', err);
+                reject(err);
+              }
+            });
+
           });
-  
         });
       });
     });
