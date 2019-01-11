@@ -22,12 +22,6 @@ const defaultState = {
   network: 'mainnet',
 };
 
-AsyncStorage.setItem('availableTokens', JSON.stringify(defaultState.availableTokens));
-AsyncStorage.getItem('availableTokens')
-  .then(r=>console.log('before state change 1:::',JSON.parse(r)))
-  .catch(e=>console.log(e));
-
-
 const appReducer = (state = defaultState, action) => {
   switch (action.type) {
     case ADD_TOKEN:
@@ -50,7 +44,7 @@ const appReducer = (state = defaultState, action) => {
                 }
               : {},
           ),
-        ], AsyncStorage.setItem('availableTokens', JSON.stringify(defaultState.availableTokens))),
+        ]),
       };
     case DELETE_TOKEN:
       return {

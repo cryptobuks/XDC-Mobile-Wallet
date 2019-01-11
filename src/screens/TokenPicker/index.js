@@ -31,32 +31,57 @@ class TokenPicker extends Component {
     network: PropTypes.string.isRequired,
   };
 
-  render() {  
+  state = {
+    tokenList: [],
+    menuOptions: [],
+  }
+
+  componentWillMount() {
     const currentNetwork = this.props.network;
     console.log('list of tokens:', this.props.availableTokens);
-    
-    const menuOptions = [
-      ...this.props.availableTokens.
-      filter(token => token.network === currentNetwork).
-      map(token => ({
-        onDeletePress: () => {
-          this.props.onDeleteToken(token);
-        },
-        onPress: () => {
-          this.props.onTokenChange(token);
-          this.props.navigation.goBack();
-        },
-        swipeToDelete: !['ELT', 'ETH'].includes(token.symbol),
-        title: token.name,
-      })),
-      {
-        onPress: () => {
-          this.props.navigation.navigate('AddToken');
-        },
-        title: 'Add new token',
-      },
-    ];
+    this.setState({
+      tokenList: this.props.availableTokens,
+    })
+    AsyncStorage.setItem('availableTokens', JSON.stringify(this.props.availableTokens));
+    AsyncStorage.getItem('availableTokens')
+      .then(r => {
+        console.log('datalist:::', JSON.parse(r));
+        this.setState({
+          tokenList: JSON.parse(r),
+        });
+        console.log('this.state.tokenlist',this.state.tokenList);
+        const listOfTokens = this.state.tokenList;  
+        const menuOptions = [
+          ...listOfTokens.
+          filter(token => token.network === currentNetwork).
+          map(token => ({
+            onDeletePress: () => {
+              this.props.onDeleteToken(token);
+            },
+            onPress: () => {
+              this.props.onTokenChange(token);
+              this.props.navigation.goBack();
+            },
+            swipeToDelete: !['ELT', 'ETH'].includes(token.symbol),
+            title: token.name,
+          })),
+          {
+            onPress: () => {
+              this.props.navigation.navigate('AddToken');
+            },
+            title: 'Add new token',
+          },
+        ];
 
+        this.setState({
+          menuOptions: menuOptions,
+        });
+      })
+      .catch(e=>console.log(e));
+  }
+  
+  render() {  
+    console.log('menuoptions',this.state.menuOptions);
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
@@ -64,7 +89,7 @@ class TokenPicker extends Component {
             onBackPress={() => this.props.navigation.goBack()}
             title="Select coin"
           />
-          <Menu options={menuOptions} />
+          <Menu options={this.state.menuOptions} />
         </SafeAreaView>
       </GradientBackground>
     );

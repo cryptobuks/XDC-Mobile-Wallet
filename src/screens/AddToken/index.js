@@ -90,7 +90,7 @@ class AddToken extends Component {
 
     this.props.addToken(token);
     this.props.setDefaultToken(token);
-    this.props.navigation.goBack();
+    this.props.navigation.navigate('WalletHome');
   };
 
   render() {
