@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   keyboardText: {
-    color: '#fff',
+    color: '#254a81',
     fontSize: 40,
     textAlign: 'center',
   },

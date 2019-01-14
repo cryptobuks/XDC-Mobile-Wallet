@@ -63,13 +63,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   bannerContainer: {
-    backgroundColor: '#372F49',
+    backgroundColor: '#ddd',
     marginVertical: 10,
     paddingVertical: 10,
     paddingHorizontal: 15,
   },
   bannerText: {
-    color: '#fff',
+    color: '#254a81',
   },
   listContainer: {
     flex: 1,

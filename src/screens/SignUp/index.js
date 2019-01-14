@@ -142,7 +142,6 @@ const styles = StyleSheet.create({
     width: '90%',
     color: '#254a81',
     fontSize: 30,
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   buttonsContainer: {

@@ -14,10 +14,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 8,
     paddingVertical: 20,
+    borderWidth: 2,
+    borderColor: '#254a81',
   },
   text: {
     backgroundColor: 'transparent',
-    color: '#4D00FF',
+    color: '#254a81',
     fontSize: 18,
   },
 });

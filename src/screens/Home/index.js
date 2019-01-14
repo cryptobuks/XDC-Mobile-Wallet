@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   logoText: {
     width: '90%',
-    color: '#fff',
+    color: '#254a81',
     fontSize: 30,
     textAlign: 'center',
   },
