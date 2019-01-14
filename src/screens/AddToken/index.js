@@ -36,6 +36,7 @@ class AddToken extends Component {
     decimals: '',
     name: '',
     symbol: '',
+    network: this.props.network,
   };
 
   onBarCodeRead = contractAddress => {
@@ -55,10 +56,12 @@ class AddToken extends Component {
         )
           .then(response => response.json())
           .then(data => {
+            console.log('add token data',data);
             this.setState({
               name: data.name || '',
               symbol: data.symbol || '',
               decimals: data.decimals ? data.decimals.toString() : '',
+              network: data.network || '',
             });
           });
       },
@@ -75,17 +78,19 @@ class AddToken extends Component {
     /^0x([A-Fa-f0-9]{40})$/.test(this.state.contractAddress);
 
   addToken = () => {
+    console.log("state check 1:", this.state)
     const token = {
       contractAddress: this.state.contractAddress,
       decimals: parseInt(this.state.decimals, 10),
       name: this.state.name,
       symbol: this.state.symbol,
       currencySymbol: 'USD',
+      network: this.state.network
     };
 
     this.props.addToken(token);
     this.props.setDefaultToken(token);
-    this.props.navigation.goBack();
+    this.props.navigation.navigate('WalletHome');
   };
 
   render() {
@@ -108,7 +113,11 @@ class AddToken extends Component {
             onNameChange={name => this.setState({ name })}
             onSymbolChange={symbol => this.setState({ symbol })}
             onCameraPress={this.onCameraPress}
+            onNetworkChange={network => {
+              console.log("network check 1:", network)
+              this.setState({ network })}}
             symbol={this.state.symbol}
+            network={this.state.network}
           />
           <View style={styles.buttonContainer}>
             <SecondaryButton
