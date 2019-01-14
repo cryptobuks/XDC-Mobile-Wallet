@@ -13,6 +13,7 @@ import Footer from '../UIComponents/Footer/index';
 import { SET_CALL_TO_ACTION_DISMISSED } from '../../config/actionTypes';
 import WalletUtils from '../../utils/wallet';
 import { relative } from 'path';
+import { DrawerActions } from 'react-navigation';
 
 const styles = StyleSheet.create({
   container: {
@@ -237,7 +238,8 @@ class WalletHome extends Component {
                 <BalanceRow
                   currentBalance={this.state.currentBalance}
                   onTokenChangeIconPress={() =>
-                    this.props.navigation.navigate('TokenPicker')
+                    // this.props.navigation.navigate('TokenPicker')
+                    this.props.navigation.dispatch(DrawerActions.openDrawer())
                   }
                   onSettingsIconPress={() =>
                     this.props.navigation.navigate('Settings')

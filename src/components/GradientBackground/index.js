@@ -16,7 +16,7 @@ export default class GradientBackground extends Component {
 
   render() {
     return (
-      <LinearGradient colors={['#090909', '#181724']} style={styles.background}>
+      <LinearGradient colors={['#ffffff', '#ffffff']} style={styles.background}>
         {this.props.children}
       </LinearGradient>
     );

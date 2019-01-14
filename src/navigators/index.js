@@ -1,6 +1,7 @@
 import { 
   createStackNavigator, 
   createSwitchNavigator,
+  DrawerNavigator,
 } from 'react-navigation';
 import {Easing, Animated} from 'react-native';
 import {
@@ -21,6 +22,7 @@ import {
   WalletSendScreen,
 } from '../screens';
 
+import CustomDrawer from './Drawer/Drawer'
 
 const WelcomeNavigator = createStackNavigator(
   {
@@ -147,12 +149,32 @@ const WalletNavigator = createStackNavigator(
   },
 );
 
+const DrawerNavigation = DrawerNavigator({
+  Home: {
+      screen: WalletHomeScreen,
+  },
+  Send: {
+      screen: WalletSendScreen,
+  },
+},
+{
+  contentComponent: CustomDrawer,
+  contentOptions: {
+    activeTintColor: '#254a81',
+  },
+  drawerPosition: 'left',
+  drawerBackgroundColor: 'white',
+  drawerWidth: 270,
+  drawerType: 'back'
+});
+
 export default createSwitchNavigator(
   {
     AppLoading: AppLoadingScreen,
     PinCode: PinCodeScreen,
     Wallet: WalletNavigator,
     Welcome: WelcomeNavigator,
+    Drawer: DrawerNavigation,
   },
   {
     initialRouteName: 'AppLoading',

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Image, SafeAreaView, StyleSheet, View, Text, Platform, AsyncStorage } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, View, Text, Platform, AsyncStorage, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import googleIcon from './images/google.png';
+import slackIcon from './images/slack.png';
 import {
   GradientBackground,
   PrimaryButton,
@@ -106,14 +108,14 @@ class SignUp extends Component {
             <Text style={styles.logoText}>XDC Wallet</Text>
           </View>
           <View style={styles.buttonsContainer}>
-            <PrimaryButton
-              onPress={() => this.signUp('google')}
-              text="Sign Up with Google"
-            />
-            <PrimaryButton
-              onPress={() => this.signUp('slack')}
-              text="Sign Up with Slack"
-            />
+            <TouchableOpacity activeOpacity={0.8} onPress={() => this.signUp('google')} style={styles.signUpBtn}>
+                <Image source={googleIcon} style={styles.socialIcon} />
+                <Text style={styles.buttonText}>Sign Up with Google</Text>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.8} onPress={() => this.signUp('slack')} style={styles.signUpBtn}>
+                <Image source={slackIcon} style={styles.socialIcon} />
+                <Text style={styles.buttonText}>Sign Up with Slack</Text>
+            </TouchableOpacity>
           </View>
         </SafeAreaView>
       </GradientBackground>
@@ -138,13 +140,35 @@ const styles = StyleSheet.create({
   },
   logoText: {
     width: '90%',
-    color: '#fff',
+    color: '#254a81',
     fontSize: 30,
+    fontWeight: 'bold',
     textAlign: 'center',
   },
   buttonsContainer: {
     paddingHorizontal: 15,
     width: '100%',
+  },
+  signUpBtn: {
+    alignItems: 'center',
+    borderRadius: 8,
+    marginBottom: 15,
+    paddingVertical: 20,
+    backgroundColor: '#eee',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  socialIcon: {
+    width: 22,
+    height: 22,
+    marginVertical: 5,
+    marginHorizontal: 15,
+  },
+  buttonText: {
+    backgroundColor: 'transparent',
+    color: '#333',
+    fontSize: 18,
   },
 });
 
