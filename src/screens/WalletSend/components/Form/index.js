@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   formLabel: {
-    color: '#9d9d9d',
+    color: '#254a81',
     paddingLeft: Platform.OS === 'ios' ? 0 : 4,
     paddingBottom: Platform.OS === 'ios' ? 10 : 0,
   },
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   tokenSymbol: {
-    color: '#fff',
+    color: '#000',
     fontSize: 18,
   },
   arrowIcon: {
@@ -100,7 +100,7 @@ class Form extends Component {
               autoCorrect={false}
               onChangeText={onAddressChange}
               placeholder="0x..."
-              placeholderTextColor="#9d9d9d"
+              placeholderTextColor="#000"
               onSubmitEditing={() => {
                 this.amountInput.focus();
               }}
@@ -126,7 +126,7 @@ class Form extends Component {
               keyboardType="numeric"
               onChangeText={onAmountChange}
               placeholder="1000"
-              placeholderTextColor="#9d9d9d"
+              placeholderTextColor="#000"
               ref={input => {
                 this.amountInput = input;
               }}
