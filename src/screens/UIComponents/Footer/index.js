@@ -84,7 +84,7 @@ class Footer extends Component {
 
     return (
       <LinearGradient
-                colors={['#7f0fc9', '#4d00ff']}
+                colors={['#254a81', '#254a81']}
                 locations={[0, 1]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}

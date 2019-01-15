@@ -150,11 +150,20 @@ const WalletNavigator = createStackNavigator(
 );
 
 const DrawerNavigation = DrawerNavigator({
-  Home: {
+  'Home': {
       screen: WalletHomeScreen,
   },
-  Send: {
+  'Send': {
       screen: WalletSendScreen,
+  },
+  'Change Pin': {
+    screen: CreateWalletScreen,
+  },
+  'Change Network': {
+    screen: NetworkPickerScreen,
+  },
+  'Show Private Key':{
+    screen:PrivateKeyScreen,
   },
 },
 {

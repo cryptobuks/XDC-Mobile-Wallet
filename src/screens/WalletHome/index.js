@@ -226,7 +226,7 @@ class WalletHome extends Component {
           <View style={styles.topContainer}>
             <View style={styles.gradientHeaderWrapper}>
               <LinearGradient
-                colors={['#7f0fc9', '#4d00ff']}
+                colors={['#254a81', '#254a81']}
                 locations={[0, 1]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
@@ -246,7 +246,7 @@ class WalletHome extends Component {
                   }
                 />
               </LinearGradient>
-              <LinearGradient
+              {/* <LinearGradient
                 colors={['rgba(127,15,201,0.7)', 'rgba(77,0,255,0.7)']}
                 locations={[0, 1]}
                 start={{ x: 0, y: 0 }}
@@ -259,7 +259,7 @@ class WalletHome extends Component {
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
                 style={styles.gradientHeaderShadowTwo}
-              ></LinearGradient>
+              ></LinearGradient> */}
             </View>
             {!this.props.callToActionDismissed && (
               <CallToAction
