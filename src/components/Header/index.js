@@ -7,11 +7,12 @@ import arrow from './images/arrow.png';
 const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
-    paddingTop: 30,
+    paddingVertical: 10,
     paddingHorizontal: 15,
+    backgroundColor: '#254a81',
   },
   centeredContainer: {
-    paddingTop: 30,
+    paddingVertical: 10,
     paddingHorizontal: 15,
     alignItems: 'center',
   },
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerText: {
-    color: '#254a81',
+    color: '#fff',
     fontSize: 27,
   },
   headerArrow: {
