@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { AppState, Alert, SafeAreaView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { GradientBackground, Text } from '../../components';
+import { GradientBackground, Text, Header } from '../../components';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   BalanceRow,
@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     flex: 1,
+    backgroundColor: '#fff',
   },
   gradientHeaderWrapper: {
     height: 150,
@@ -223,7 +224,14 @@ class WalletHome extends Component {
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
-          <View style={styles.topContainer}>
+          <Header
+            hamBurgerPress={() => {
+              console.log('props wallethome:', this.props);
+              this.props.navigation.dispatch(DrawerActions.openDrawer())
+            }}
+            title="Dashboard"
+          />
+          {/* <View style={styles.topContainer}>
             <View style={styles.gradientHeaderWrapper}>
               <LinearGradient
                 colors={['#254a81', '#254a81']}
@@ -246,20 +254,6 @@ class WalletHome extends Component {
                   }
                 />
               </LinearGradient>
-              {/* <LinearGradient
-                colors={['rgba(127,15,201,0.7)', 'rgba(77,0,255,0.7)']}
-                locations={[0, 1]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.gradientHeaderShadow}
-              ></LinearGradient>
-              <LinearGradient
-                colors={['rgba(127,15,201,0.5)', 'rgba(77,0,255,0.5)']}
-                locations={[0, 1]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.gradientHeaderShadowTwo}
-              ></LinearGradient> */}
             </View>
             {!this.props.callToActionDismissed && (
               <CallToAction
@@ -283,7 +277,7 @@ class WalletHome extends Component {
                 />
               )}
             </View>
-          </View>
+          </View> */}
           <Footer
             activeTab="home"
             onReceivePress={() => this.props.navigation.navigate('Receive')}

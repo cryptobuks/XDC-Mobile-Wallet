@@ -8,6 +8,7 @@ import Form from './components/Form';
 import AnalyticsUtils from '../../utils/analytics';
 import WalletUtils from '../../utils/wallet';
 import Footer from '../UIComponents/Footer/index';
+import { DrawerActions } from 'react-navigation';
 
 const styles = StyleSheet.create({
   container: {
@@ -112,7 +113,10 @@ class WalletSend extends Component {
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
-          <Header onBackPress={() => this.goBack()} title="Send" />
+          <Header 
+            hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
+            onBackPress={() => this.goBack()} 
+            title="Send" />
           <Form
             address={this.state.address}
             amount={this.state.amount}
