@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   formInput: {
-    color: '#fff',
+    color: '#000',
     flex: 1,
     flexGrow: 1,
     fontFamily: 'Varela Round',

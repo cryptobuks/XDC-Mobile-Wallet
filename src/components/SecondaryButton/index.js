@@ -11,7 +11,7 @@ import Text from '../Text';
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    backgroundColor: '#254a81',
+    backgroundColor: '#fff',
     borderRadius: 8,
     paddingVertical: 20,
     borderWidth: 2,
