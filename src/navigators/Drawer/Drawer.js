@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
     drawerHeader: {
         justifyContent: 'center',
         alignItems: 'center',
-        color: '#fff',
         width: 150,
         height: 75,
 

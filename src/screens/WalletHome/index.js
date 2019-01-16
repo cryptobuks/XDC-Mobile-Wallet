@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { GradientBackground, Text, Header } from '../../components';
 import LinearGradient from 'react-native-linear-gradient';
 import {
+  Balances,
   BalanceRow,
   CallToAction,
   TransactionsList,
@@ -231,6 +232,9 @@ class WalletHome extends Component {
             }}
             title="Dashboard"
           />
+          <View style={styles.topContainer}>
+            <Balances currentBalance={this.state.currentBalance} />
+          </View>
           {/* <View style={styles.topContainer}>
             <View style={styles.gradientHeaderWrapper}>
               <LinearGradient
