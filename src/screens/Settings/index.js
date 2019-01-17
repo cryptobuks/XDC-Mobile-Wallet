@@ -6,6 +6,7 @@ import { GradientBackground, Header, Menu, Text } from '../../components';
 import { LOGOUT } from '../../config/actionTypes';
 import { persistor } from '../../config/store';
 import Footer from '../UIComponents/Footer/index';
+import { DrawerActions } from 'react-navigation';
 
 const styles = StyleSheet.create({
   container: {
@@ -99,8 +100,9 @@ class Settings extends Component {
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <Header
+            hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
             onBackPress={() => this.props.navigation.goBack()}
-            title="Settings"
+            title="Transactions"
           />
           <Menu options={this.menuOptions} />
           <View style={styles.networkNameContainer}>
@@ -109,7 +111,7 @@ class Settings extends Component {
             </Text>
           </View>
           <Footer
-            activeTab="settings"
+            activeTab="transactions"
             onReceivePress={() => this.props.navigation.navigate('Receive')}
             onHomePress={() => this.props.navigation.navigate('WalletHome')}
             onSendPress={() =>
@@ -117,7 +119,7 @@ class Settings extends Component {
                 onTokenChange: this.onTokenChange,
               })
             }
-            onSettingPress={() => this.props.navigation.navigate('Settings')}
+            ontransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
           />
         </SafeAreaView>
       </GradientBackground>

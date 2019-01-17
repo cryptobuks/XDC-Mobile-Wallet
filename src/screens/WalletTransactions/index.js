@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { AppState, Alert, SafeAreaView, StyleSheet, View } from 'react-native';
+import { AppState, Alert, SafeAreaView, StyleSheet, View, Picker } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GradientBackground, Text, Header } from '../../components';
 import LinearGradient from 'react-native-linear-gradient';
 import {
-  Balances,
   BalanceRow,
   CallToAction,
   TransactionsList,
@@ -28,60 +27,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   gradientHeaderWrapper: {
-    height: 150,
     position: 'relative',
   },
   gradientHeader: {
     width: '100%',
-    height: 130,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-  },
-  gradientHeaderShadow: {
-    position: 'absolute',
-    width: '92%',
-    marginLeft: '4%',
-    bottom: 10,   
-    height: 10,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-  },
-  gradientHeaderShadowTwo: {
-    position: 'absolute',
-    width: '86%',
-    marginLeft: '7%',
-    bottom: 0,   
-    height: 10,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
   },
   coinName: {
     color: '#fff',
-    backgroundColor: 'transparent',
-    fontSize: 18,
-    letterSpacing: 3,
-    paddingVertical: 15,
-    paddingTop: 20,
-    textAlign: 'center',
-  },
-  bannerContainer: {
-    backgroundColor: '#ddd',
-    marginVertical: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-  },
-  bannerText: {
-    color: '#254a81',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    paddingVertical: 5,
   },
   listContainer: {
     flex: 1,
   },
 });
 
-class WalletHome extends Component {
+class WalletTransactions extends Component {
   static propTypes = {
     callToActionDismissed: PropTypes.bool.isRequired,
     dismissCallToAction: PropTypes.func.isRequired,
+    onTokenChange: PropTypes.func.isRequired,
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired,
     }).isRequired,
@@ -103,6 +68,7 @@ class WalletHome extends Component {
     appState: AppState.currentState,
     refreshingTransactions: false,
     transactions: [],
+    tokens: '',
   };
 
   componentDidMount() {
@@ -219,6 +185,10 @@ class WalletHome extends Component {
     WalletUtils.loadTokensList();
   };
 
+  tokenChange = (val) => {
+    console.log('token change to: ', val)
+  }
+
   render() {
     console.log('selectedToken', this.props.selectedToken);
     console.log('currentBalance::::::', this.state.currentBalance);
@@ -230,12 +200,10 @@ class WalletHome extends Component {
               console.log('props wallethome:', this.props);
               this.props.navigation.dispatch(DrawerActions.openDrawer())
             }}
-            title="Dashboard"
+            onBackPress={() => this.props.navigation.goBack()}
+            title="Transactions"
           />
           <View style={styles.topContainer}>
-            <Balances currentBalance={this.state.currentBalance} />
-          </View>
-          {/* <View style={styles.topContainer}>
             <View style={styles.gradientHeaderWrapper}>
               <LinearGradient
                 colors={['#254a81', '#254a81']}
@@ -244,32 +212,28 @@ class WalletHome extends Component {
                 end={{ x: 1, y: 0 }}
                 style={styles.gradientHeader}
               >
-                <Text style={styles.coinName} letterSpacing={2}>
-                  {this.props.selectedToken.name}
-                </Text>
                 <BalanceRow
                   currentBalance={this.state.currentBalance}
                   onTokenChangeIconPress={() =>
-                    // this.props.navigation.navigate('TokenPicker')
-                    this.props.navigation.dispatch(DrawerActions.openDrawer())
+                    this.props.navigation.navigate('TokenPicker')
                   }
                   onSettingsIconPress={() =>
                     this.props.navigation.navigate('Settings')
                   }
+                  tokenChange={this.tokenChange}
                 />
+                {/* <Text style={styles.coinName} letterSpacing={2}>
+                  {this.props.selectedToken.name}
+                </Text> */}
+
               </LinearGradient>
             </View>
-            {!this.props.callToActionDismissed && (
+            {/* {!this.props.callToActionDismissed && (
               <CallToAction
                 onDismiss={this.onCallToActionDismiss}
                 onPress={this.onCallToActionPress}
               />
-            )}
-            <View style={styles.bannerContainer}>
-              <Text style={styles.bannerText}>
-                Showing recent {this.props.selectedToken.name} transactions
-              </Text>
-            </View>
+            )} */}
             <View style={styles.listContainer}>
               {!!this.props.walletAddress && (
                 <TransactionsList
@@ -281,9 +245,9 @@ class WalletHome extends Component {
                 />
               )}
             </View>
-          </View> */}
+          </View>
           <Footer
-            activeTab="home"
+            activeTab="transactions"
             onReceivePress={() => this.props.navigation.navigate('Receive')}
             onHomePress={() => this.props.navigation.navigate('WalletHome')}
             onSendPress={() =>
@@ -307,9 +271,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   dismissCallToAction: () => dispatch({ type: SET_CALL_TO_ACTION_DISMISSED }),
+  onTokenChange: token => dispatch({ type: SET_DEFAULT_TOKEN, token }),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(WalletHome);
+)(WalletTransactions);

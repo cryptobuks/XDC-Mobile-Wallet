@@ -89,7 +89,6 @@ class Form extends Component {
     return (
       <ScrollContainer
         contentContainerStyle={{
-          flex: 1,
           justifyContent: 'center',
         }}
       >

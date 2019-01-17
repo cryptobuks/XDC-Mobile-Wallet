@@ -92,7 +92,7 @@ class WalletReceive extends Component {
                 onTokenChange: this.onTokenChange,
               })
             }
-            onSettingPress={() => this.props.navigation.navigate('Settings')}
+            ontransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
           />
         </SafeAreaView>
       </GradientBackground>
