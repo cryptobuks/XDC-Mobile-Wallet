@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     textAlign: 'center',
-    top: 60,
+    top: 100,
     left: 20,
   },
   balances: {
@@ -91,7 +91,7 @@ class Balances extends Component {
           svg: { fill: colors[index] },
           arc: { 
             outerRadius: '100%',
-            innerRadius: '90%', 
+            innerRadius: '75%', 
             padAngle: label === key ? 0.1 : 0 
           },
           onPress: () => this.setState({ selectedSlice: { label: key, value: values[index] } })
@@ -105,7 +105,7 @@ class Balances extends Component {
       <View style={styles.container}>
         <View style={styles.balanceWrap}>
           <PieChart
-              style={{ height: 100, width: '100%' }}
+              style={{ height: 175, width: '100%' }}
               data={data}
           />
 

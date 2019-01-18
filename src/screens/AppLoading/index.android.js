@@ -24,6 +24,7 @@ class AppLoading extends Component {
     walletAddress: null,
   };
 
+
   async componentDidMount() {
     SplashScreen.hide();
     if (!this.props.walletAddress) {
@@ -31,6 +32,7 @@ class AppLoading extends Component {
     }
 
     if (this.props.walletAddress) {
+      
       return this.props.navigation.navigate('PinCode');
     }
 
@@ -101,6 +103,7 @@ class AppLoading extends Component {
   }
 
   render() {
+    
     console.log('splash screen will mount render');
     const splash = <View style={{flex: 1, backgroundColor: 'green',}}>
                       
