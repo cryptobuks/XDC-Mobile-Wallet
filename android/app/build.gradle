@@ -148,6 +148,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-splash-screen')
     compile project(':react-native-fingerprint-scanner')
     compile project(':react-native-oauth')
     compile project(':react-native-svg')
