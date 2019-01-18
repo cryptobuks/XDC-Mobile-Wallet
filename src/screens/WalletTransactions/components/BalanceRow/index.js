@@ -41,12 +41,6 @@ const styles = StyleSheet.create({
     marginTop: 1,
     width: 24,
   },
-  tokenPicker: {
-    position: 'absolute',
-    top: 0,
-    width: 1000,
-    height: 1000,
-  },
   tokensWrap: {
     backgroundColor: 'rgba(0,0,0,0.3)',
     width: '100%',
@@ -61,13 +55,9 @@ const styles = StyleSheet.create({
   tokenText: {
     color: '#fff',
   },
-  ModalContainer: {
-    padding: 10,
-  },
   ModalView: {
     backgroundColor: '#fff',
     padding: 20,
-    width: '100%',
     flex: 1,
   },
 });
@@ -131,7 +121,7 @@ class BalanceRow extends Component {
         isVisible={this.state.isModalVisible} 
         style={styles.ModalContainer}>
         <View style={styles.ModalView}>
-          {/* <TokenList toggleModal={this.toggleModal} /> */}
+          <TokenList toggleModal={this.toggleModal} />
         </View>
       </Modal>
 
