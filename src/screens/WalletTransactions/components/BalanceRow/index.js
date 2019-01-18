@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, TouchableOpacity, View, Picker } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View, Picker, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Text } from '../../../../components';
+import Modal from 'react-native-modal'
+import TokenList from '../../../TokenPicker/'
 
-import switchIcon from './images/add.png';
+import switchIcon from './images/switch.png';
 
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 20,
-    paddingHorizontal: 20,
     width: '100%',
     backgroundColor: 'transparent',
   },
@@ -35,9 +35,6 @@ const styles = StyleSheet.create({
     paddingBottom: 2,
     paddingLeft: 10,
   },
-  iconsContainer: {
-    flexDirection: 'row',
-  },
   switchIcon: {
     height: 24,
     marginRight: 20,
@@ -50,9 +47,36 @@ const styles = StyleSheet.create({
     width: 1000,
     height: 1000,
   },
+  tokensWrap: {
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    width: '100%',
+    padding: 5,
+  },
+  tokenTitle: {
+    padding: 5,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  tokenText: {
+    color: '#fff',
+  },
+  ModalContainer: {
+    padding: 10,
+  },
+  ModalView: {
+    backgroundColor: '#fff',
+    padding: 20,
+    width: '100%',
+    flex: 1,
+  },
 });
 
 class BalanceRow extends Component {
+  state = {
+    isModalVisible: false,
+    data: null
+  };
   static propTypes = {
     currentBalance: PropTypes.object.isRequired,
     selectedToken: PropTypes.shape({
@@ -63,6 +87,10 @@ class BalanceRow extends Component {
     tokenChange: PropTypes.func.isRequired,
   };
 
+  toggleModal = (transactionDetails) => {
+    console.log('transactionDetails', transactionDetails);
+    this.setState({ isModalVisible: !this.state.isModalVisible, data: transactionDetails });
+  }
   // tokenChange = (data) => {
   //   console.log('token change balancerow', this.props);
   //   this.props.tokenChange(data)
@@ -79,14 +107,34 @@ class BalanceRow extends Component {
     return (
       <View style={styles.container}>
 
-      <Picker
+      {/* <Picker
         selectedValue={selectedToken.name}
         style={{width: '100%', height: 50}}
         onValueChange={(itemValue, itemIndex) => tokenChange(itemValue)}>
         <Picker.Item label="XDC" value="xdc" />
         <Picker.Item label="ETH" value="eth" />
-      </Picker>
-        
+      </Picker> */}
+
+      <TouchableHighlight onPress={() => this.toggleModal(null)} style={styles.tokensWrap}>
+        <View style={styles.tokenTitle}>
+          <Text style={styles.tokenText} letterSpacing={1}>
+            {selectedToken.name}
+          </Text>
+          <View>
+            <Image source={switchIcon} style={styles.switchIcon} />
+          </View> 
+        </View>
+      </TouchableHighlight>
+
+      <Modal 
+        onBackdropPress={() => this.toggleModal(null)}
+        isVisible={this.state.isModalVisible} 
+        style={styles.ModalContainer}>
+        <View style={styles.ModalView}>
+          {/* <TokenList toggleModal={this.toggleModal} /> */}
+        </View>
+      </Modal>
+
         {/* <View style={styles.balanceContainer}>
           <Text style={styles.balance} letterSpacing={1}>
             {currentBalance.usdBalance.toFixed(2)}

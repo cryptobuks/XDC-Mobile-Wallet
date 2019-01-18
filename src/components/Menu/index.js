@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rowText: {
-    color: '#fff',
+    color: '#000',
     fontSize: 18,
   },
   rowIcon: {

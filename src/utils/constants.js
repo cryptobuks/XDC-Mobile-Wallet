@@ -11,15 +11,15 @@ const defaultTokens = [
     currencySymbol: 'USD',
     network: 'mainnet',
   },
-  // {
-  //   name: 'ELT',
-  //   id: uuid.v4(),
-  //   symbol: 'ELT',
-  //   contractAddress: contractAddress,
-  //   decimals: 18,
-  //   currencySymbol: 'USD',
-  //   network: 'ropsten',
-  // },
+  {
+    name: 'ELT',
+    id: uuid.v4(),
+    symbol: 'ELT',
+    contractAddress: contractAddress,
+    decimals: 18,
+    currencySymbol: 'USD',
+    network: 'ropsten',
+  },
 ];
 
 const erc20Abi = [

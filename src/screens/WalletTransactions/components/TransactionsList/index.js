@@ -124,9 +124,6 @@ export default class TransactionsList extends Component {
         ListEmptyComponent={
           <View>
             <Text style={styles.emptyListText}>No transactions to show</Text>
-            {/* <TouchableHighlight onPress={() => this.toggleModal(item)}>
-              <Text style={styles.emptyListText}>Button</Text>
-            </TouchableHighlight> */}
           </View>
         }
         onRefresh={onRefresh}
