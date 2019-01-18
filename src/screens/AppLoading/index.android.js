@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
 import {
   ADD_TOKEN,
   SET_DEFAULT_TOKEN,
@@ -24,6 +25,7 @@ class AppLoading extends Component {
   };
 
   async componentDidMount() {
+    SplashScreen.hide();
     if (!this.props.walletAddress) {
       await this.migrateFromAsyncStorage();
     }
