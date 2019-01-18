@@ -186,7 +186,8 @@ class WalletTransactions extends Component {
   };
 
   tokenChange = (val) => {
-    console.log('token change to: ', val)
+    console.log('token change to: ', val);
+    this.props.setDefaultToken(token);
   }
 
   render() {
