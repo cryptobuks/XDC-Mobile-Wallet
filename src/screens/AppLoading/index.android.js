@@ -1,5 +1,5 @@
-import { Component } from 'react';
-import { AsyncStorage } from 'react-native';
+import React, { Component } from 'react';
+import { AsyncStorage, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
@@ -96,8 +96,18 @@ class AppLoading extends Component {
     return AsyncStorage.multiRemove(keys);
   };
 
+  componentWillMount() {
+    console.log('splash screen will mount');
+  }
+
   render() {
-    return null;
+    console.log('splash screen will mount render');
+    const splash = <View style={{flex: 1, backgroundColor: 'green',}}>
+                      
+                    </View>
+    console.log('splash:', splash);
+
+    return splash;
   }
 }
 

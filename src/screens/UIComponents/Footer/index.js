@@ -72,12 +72,12 @@ class Footer extends Component {
     onReceivePress: PropTypes.func.isRequired,
     onSendPress: PropTypes.func.isRequired,
     onHomePress: PropTypes.func.isRequired,
-    onSettingPress: PropTypes.func.isRequired,
+    ontransactionsPress: PropTypes.func.isRequired,
     activeTab: PropTypes.string.isRequired,
   };
 
   render() {
-    const { onReceivePress, onSendPress, onHomePress, onSettingPress, activeTab } = this.props;
+    const { onReceivePress, onSendPress, onHomePress, ontransactionsPress, activeTab } = this.props;
 
     let activeTabStyle = [styles.button, styles.activeTab];
     let normalTabStyle = [styles.button];
@@ -117,11 +117,11 @@ class Footer extends Component {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={onSettingPress}
-            style={activeTab === "settings" ? activeTabStyle : normalTabStyle}
+            onPress={ontransactionsPress}
+            style={activeTab === "transactions" ? activeTabStyle : normalTabStyle}
           >
             <Image source={settingsIcon} style={styles.buttonIcon} />
-            <Text style={styles.buttonText}>Settings</Text>
+            <Text style={styles.buttonText}>Transactions</Text>
           </TouchableOpacity>
           
         </View>

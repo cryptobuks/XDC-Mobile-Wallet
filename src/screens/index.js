@@ -11,6 +11,7 @@ import RecoverWalletScreen from './RecoverWallet';
 import SettingsScreen from './Settings';
 import TokenPickerScreen from './TokenPicker';
 import WalletHomeScreen from './WalletHome';
+import WalletTransactionsScreen from './WalletTransactions';
 import WalletReceiveScreen from './WalletReceive';
 import WalletSendScreen from './WalletSend';
 
@@ -28,6 +29,7 @@ export {
   SettingsScreen,
   TokenPickerScreen,
   WalletHomeScreen,
+  WalletTransactionsScreen,
   WalletReceiveScreen,
   WalletSendScreen,
 };

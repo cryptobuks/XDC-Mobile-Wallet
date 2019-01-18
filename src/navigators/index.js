@@ -18,6 +18,7 @@ import {
   SettingsScreen,
   TokenPickerScreen,
   WalletHomeScreen,
+  WalletTransactionsScreen,
   WalletReceiveScreen,
   WalletSendScreen,
 } from '../screens';
@@ -64,6 +65,9 @@ const WalletMainNavigator = createStackNavigator(
     },
     WalletHome: {
       screen: WalletHomeScreen,
+    },
+    WalletTransactions: {
+      screen: WalletTransactionsScreen,
     },
     NetworkPicker: {
       screen: NetworkPickerScreen,
@@ -164,7 +168,7 @@ const DrawerNavigation = DrawerNavigator({
   },
   'Show Private Key':{
     screen:PrivateKeyScreen,
-  },
+  }
 },
 {
   contentComponent: CustomDrawer,
@@ -174,7 +178,6 @@ const DrawerNavigation = DrawerNavigator({
   drawerPosition: 'left',
   drawerBackgroundColor: 'white',
   drawerWidth: 270,
-  drawerType: 'back'
 });
 
 export default createSwitchNavigator(

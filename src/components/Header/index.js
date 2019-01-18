@@ -50,7 +50,7 @@ export default class Header extends Component {
     return (
       <View
         style={
-          this.props.hamBurgerPress
+          this.props.hamBurgerPress || this.props.onBackPress
             ? styles.headerContainer
             : styles.centeredContainer
         }

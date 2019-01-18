@@ -10,6 +10,7 @@ import {
   Text,
 } from '../../components';
 import Footer from '../UIComponents/Footer/index';
+import { DrawerActions } from 'react-navigation';
 
 const styles = StyleSheet.create({
   container: {
@@ -56,10 +57,10 @@ class WalletReceive extends Component {
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
-          <Header
-            onBackPress={() => this.props.navigation.goBack()}
-            title="Receive"
-          />
+          <Header 
+            hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
+            onBackPress={() => this.props.navigation.goBack()} 
+            title="Receive" />
           <View style={styles.qrcodeContainer}>
             <QRCode
               color="#090909"
@@ -91,7 +92,7 @@ class WalletReceive extends Component {
                 onTokenChange: this.onTokenChange,
               })
             }
-            onSettingPress={() => this.props.navigation.navigate('Settings')}
+            ontransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
           />
         </SafeAreaView>
       </GradientBackground>

@@ -12,14 +12,15 @@ import { DrawerActions } from 'react-navigation';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
     paddingBottom: 0,
   },
+  sendForm: {
+
+  },
   buttonContainer: {
     paddingHorizontal: 15,
-    paddingTop: 40,
   },
 });
 
@@ -117,17 +118,20 @@ class WalletSend extends Component {
             hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
             onBackPress={() => this.goBack()} 
             title="Send" />
-          <Form
-            address={this.state.address}
-            amount={this.state.amount}
-            onAddressChange={address => this.setState({ address })}
-            onAmountChange={amount => this.setState({ amount })}
-            onCameraPress={this.onCameraPress}
-            onTokenChangeIconPress={() =>
-              this.props.navigation.navigate('TokenPicker')
-            }
-            selectedToken={this.props.selectedToken}
-          />
+
+          <View style={styles.sendForm}>  
+            <Form
+              address={this.state.address}
+              amount={this.state.amount}
+              onAddressChange={address => this.setState({ address })}
+              onAmountChange={amount => this.setState({ amount })}
+              onCameraPress={this.onCameraPress}
+              onTokenChangeIconPress={() =>
+                this.props.navigation.navigate('TokenPicker')
+              }
+              selectedToken={this.props.selectedToken}
+            />
+          </View>
           <View style={styles.buttonContainer}>
             <SecondaryButton
               disabled={!this.addressIsValid() || !this.amountIsValid()}
@@ -145,7 +149,7 @@ class WalletSend extends Component {
                 onTokenChange: this.onTokenChange,
               })
             }
-            onSettingPress={() => this.props.navigation.navigate('Settings')}
+            ontransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
           />
         </SafeAreaView>
       </GradientBackground>
