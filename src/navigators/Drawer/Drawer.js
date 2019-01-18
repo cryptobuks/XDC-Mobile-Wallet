@@ -10,7 +10,10 @@ const styles = StyleSheet.create({
         flex: 1
     },
     navItemStyle: {
-        padding: 10,
+        padding: 15,
+        fontSize:20,
+        fontWeight:"bold",
+        color:"#000"
     },
     navSectionStyle: {
     },
