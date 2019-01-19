@@ -14,23 +14,21 @@ import arrow from './images/arrow.png';
 
 const styles = StyleSheet.create({
   listContainer: {
-    borderTopWidth: 1,
-    borderColor: '#372F49',
     flex: 1,
-    marginTop: 40,
   },
   rowContainer: {
     borderBottomWidth: 1,
     borderColor: '#372F49',
-    paddingVertical: 30,
+    paddingVertical: 5,
     paddingHorizontal: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   rowText: {
-    color: '#fff',
+    color: '#000',
     fontSize: 18,
+    height: '100%'
   },
   rowIcon: {
     height: 15,

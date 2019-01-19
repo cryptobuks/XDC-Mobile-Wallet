@@ -3,7 +3,8 @@ import { Alert, SafeAreaView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { NavigationActions } from 'react-navigation';
-import { GradientBackground, Header, SecondaryButton } from '../../components';
+import { GradientBackground, Header, SecondaryButton, BalanceRow } from '../../components';
+import LinearGradient from 'react-native-linear-gradient';
 import Form from './components/Form';
 import AnalyticsUtils from '../../utils/analytics';
 import WalletUtils from '../../utils/wallet';
@@ -16,8 +17,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingBottom: 0,
   },
-  sendForm: {
-
+  gradientHeader: {
+    backgroundColor: 'coral'
   },
   buttonContainer: {
     paddingHorizontal: 15,
@@ -31,6 +32,7 @@ class WalletSend extends Component {
       goBack: PropTypes.func.isRequired,
       navigate: PropTypes.func.isRequired,
     }).isRequired,
+    onTokenChange: PropTypes.func.isRequired,
     selectedToken: PropTypes.shape({
       symbol: PropTypes.string.isRequired,
     }).isRequired,
@@ -40,6 +42,24 @@ class WalletSend extends Component {
     address: '',
     amount: '',
     isLoading: false,
+    currentBalance: {
+      'balance': 0,
+      'usdBalance': 0,
+    },
+  };
+
+  onRefresh = () => {
+    this.fetchBalance();
+  }
+
+  fetchBalance = async () => {
+    const currentBalance = await WalletUtils.getBalance(
+      this.props.selectedToken,
+    );
+
+    this.setState({
+      currentBalance,
+    });
   };
 
   onBarCodeRead = address => {
@@ -110,14 +130,40 @@ class WalletSend extends Component {
     }
   };
 
+  tokenChange = (val) => {
+    console.log('token change to: ', val);
+    this.props.setDefaultToken(token);
+  }
+
   render() {
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
-          <Header 
-            hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
-            onBackPress={() => this.goBack()} 
-            title="Send" />
+          <LinearGradient
+            colors={['#254a81', '#254a81']}
+            locations={[0, 1]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.gradientHeader}
+          >
+
+            <Header 
+              hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
+              onBackPress={() => this.goBack()} 
+              title="Send" />
+
+            <BalanceRow
+              currentBalance={this.state.currentBalance}
+              onTokenChangeIconPress={() =>
+                this.props.navigation.navigate('TokenPicker')
+              }
+              onSettingsIconPress={() =>
+                this.props.navigation.navigate('Settings')
+              }
+              tokenChange={this.tokenChange}
+            />
+          </LinearGradient>
+
 
           <View style={styles.sendForm}>  
             <Form
@@ -161,4 +207,8 @@ const mapStateToProps = state => ({
   selectedToken: state.selectedToken,
 });
 
-export default connect(mapStateToProps)(WalletSend);
+const mapDispatchToProps = dispatch => ({
+  onTokenChange: token => dispatch({ type: SET_DEFAULT_TOKEN, token }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(WalletSend);

@@ -22,10 +22,10 @@ class TokenPicker extends Component {
         symbol: PropTypes.string.isRequired,
       }),
     ).isRequired,
-    navigation: PropTypes.shape({
-      goBack: PropTypes.func.isRequired,
-      navigate: PropTypes.func.isRequired,
-    }).isRequired,
+    // navigation: PropTypes.shape({
+    //   goBack: PropTypes.func.isRequired,
+    //   navigate: PropTypes.func.isRequired,
+    // }).isRequired,
     onDeleteToken: PropTypes.func.isRequired,
     onTokenChange: PropTypes.func.isRequired,
     network: PropTypes.string.isRequired,
@@ -53,24 +53,25 @@ class TokenPicker extends Component {
         const listOfTokens = this.state.tokenList;  
         const menuOptions = [
           ...listOfTokens.
-          filter(token => token.network === currentNetwork).
+          // filter(token => token.network === currentNetwork).
           map(token => ({
             onDeletePress: () => {
               this.props.onDeleteToken(token);
             },
             onPress: () => {
               this.props.onTokenChange(token);
-              this.props.navigation.goBack();
+              this.props.toggleModal(true);
+              // this.props.navigation.goBack();
             },
             swipeToDelete: !['ELT', 'ETH'].includes(token.symbol),
             title: token.name,
           })),
-          {
-            onPress: () => {
-              this.props.navigation.navigate('AddToken');
-            },
-            title: 'Add new token',
-          },
+          // {
+          //   onPress: () => {
+          //     this.props.navigation.navigate('AddToken');
+          //   },
+          //   title: 'Add new token',
+          // },
         ];
 
         this.setState({
@@ -81,14 +82,13 @@ class TokenPicker extends Component {
   }
   
   render() {  
-    console.log('menuoptions',this.state.menuOptions);
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
-          <Header
-            onBackPress={() => this.props.navigation.goBack()}
+          {/* <Header
+            onBackPress={() => this.props.toggleModal(true)}
             title="Select coin"
-          />
+          /> */}
           <Menu options={this.state.menuOptions} />
         </SafeAreaView>
       </GradientBackground>

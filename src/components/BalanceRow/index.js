@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Image, StyleSheet, TouchableOpacity, View, Picker, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Text } from '../../../../components';
+import { Text } from '../index';
 import Modal from 'react-native-modal'
-import TokenList from '../../../TokenPicker/'
+import TokenList from '../../screens/TokenPicker';
 
 import switchIcon from './images/switch.png';
 
@@ -55,9 +55,11 @@ const styles = StyleSheet.create({
   tokenText: {
     color: '#fff',
   },
+  ModalContainer: {
+    backgroundColor: 'coral',
+  },
   ModalView: {
     backgroundColor: '#fff',
-    padding: 20,
     flex: 1,
   },
 });
