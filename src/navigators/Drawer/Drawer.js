@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
-import {NavigationActions, DrawerItems, DrawerItem} from 'react-navigation';
-import {StyleSheet , Image, ScrollView, Text, View, Alert} from 'react-native';
+import React, { Component } from 'react';
+import { NavigationActions, DrawerItems, DrawerItem } from 'react-navigation';
+import { StyleSheet, Image, ScrollView, Text, View, Alert } from 'react-native';
 import logo from './images/logo.png';
+import network from './images/network.png';
 import PropTypes from 'prop-types';
 import { LOGOUT } from '../../config/actionTypes';
 
@@ -11,11 +12,14 @@ const styles = StyleSheet.create({
     },
     navItemStyle: {
         padding: 15,
-        fontSize:20,
-        fontWeight:"bold",
-        color:"#000"
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#000"
     },
     navSectionStyle: {
+        flexDirection:'row',
+        alignItems:'center',
+
     },
     sectionHeadingStyle: {
         paddingVertical: 10,
@@ -40,6 +44,11 @@ const styles = StyleSheet.create({
     activeLink: {
         color: '#254a81',
         backgroundColor: '#efefef',
+    },
+    Icons: {
+        width: 22,
+        height: 22,
+        marginLeft:10,
     }
 });
 
@@ -47,64 +56,61 @@ const styles = StyleSheet.create({
 class CustomDrawer extends Component {
     navigateToScreen = (route) => () => {
         const navigateAction = NavigationActions.navigate({
-        routeName: route
-    });
+            routeName: route
+        });
         this.props.navigation.dispatch(navigateAction);
     }
-    
-    render () {
-        
-        const {activeItemKey} = this.props;
+
+    render() {
+
+        const { activeItemKey } = this.props;
 
         let activeTabStyle = [styles.navItemStyle, styles.activeLink];
         let normalTabStyle = [styles.navItemStyle];
-        
+
         console.log('draweritem', this.props)
         return (
-          <View style={styles.container}>
-            <ScrollView>
-                <View style={styles.drawerContainer}>
-                    <Image source={logo} style={styles.drawerHeader} />
-                </View>
-                <View>
-                    <View style={styles.navSectionStyle}>
-                        <Text 
-                            style={activeItemKey === 'Home' ? activeTabStyle : normalTabStyle} 
-                            onPress={this.navigateToScreen('Home')}>
-                            Home
-                        </Text>
-                        <Text 
-                            style={activeItemKey === 'Send' ? activeTabStyle : normalTabStyle}
-                            onPress={this.navigateToScreen('Send')}>
-                            Send
-                        </Text>
-                        <Text 
-                            style={activeItemKey === 'Receive' ? activeTabStyle : normalTabStyle}
-                            onPress={this.navigateToScreen('Receive')}>
-                            Receive
-                        </Text>
-                        <Text 
-                            style={activeItemKey === 'Change Pin' ? activeTabStyle : normalTabStyle}
-                            onPress={this.navigateToScreen('Change Pin')}>
-                            Change Pin
-                        </Text>
-                        <Text 
-                            style={activeItemKey === 'Change Network' ? activeTabStyle : normalTabStyle}
-                            onPress={this.navigateToScreen('Change Network')}>
-                            Change Network
-                        </Text>
-                        <Text 
-                            style={activeItemKey === 'Show Private Key' ? activeTabStyle : normalTabStyle}
-                            onPress={this.navigateToScreen('Show Private Key')}>
-                            Show Private Key
-                        </Text>
+            <View style={styles.container}>
+                <ScrollView>
+                    <View style={styles.drawerContainer}>
+                        <Image source={logo} style={styles.drawerHeader} />
                     </View>
+                    <View>
+                        <View style={styles.navSectionStyle}>
+                            <Image source={network} style={styles.Icons} />
+                            <Text
+                                style={activeItemKey === 'Change Network' ? activeTabStyle : normalTabStyle}
+                                onPress={this.navigateToScreen('Change Network')}>
+                                Network Change
+                            </Text>
+                        </View>
+                        <View>
+                            <Text
+                                style={activeItemKey === 'Show Private Key' ? activeTabStyle : normalTabStyle}
+                                onPress={this.navigateToScreen('Show Private Key')}>
+                                Backup Private Key
+                        </Text>
+                        </View>
+                        <View>
+                            <Text
+                                style={activeItemKey === 'Change Pin' ? activeTabStyle : normalTabStyle}
+                                onPress={this.navigateToScreen('Change Pin')}>
+                                Change Pin
+                        </Text>
+                        </View>
+                        <View>
+                            <Text
+                                style={activeItemKey === 'Change Pin' ? activeTabStyle : normalTabStyle}
+                                onPress={this.navigateToScreen('Change Pin')}>
+                                Log in to web wallet
+                        </Text>
+                        </View>
+                    </View>
+                </ScrollView>
+                <View style={styles.footerContainer}>
+                    <Text>footer</Text>
                 </View>
-            </ScrollView>
-            <View style={styles.footerContainer}>
-              <Text>footer</Text>
             </View>
-          </View>
         );
     }
 }
