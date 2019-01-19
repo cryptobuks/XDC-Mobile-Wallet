@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { AppState, Alert, SafeAreaView, StyleSheet, View, Picker } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { GradientBackground, Text, Header } from '../../components';
+import { GradientBackground, Text, Header, BalanceRow } from '../../components';
 import LinearGradient from 'react-native-linear-gradient';
 import {
-  BalanceRow,
   CallToAction,
   TransactionsList,
 } from './components';

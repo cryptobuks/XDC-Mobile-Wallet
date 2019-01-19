@@ -3,12 +3,15 @@ import { SafeAreaView, Share, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import QRCode from 'react-native-qrcode-svg';
+import LinearGradient from 'react-native-linear-gradient';
 import {
   GradientBackground,
   Header,
   SecondaryButton,
   Text,
+  BalanceRow
 } from '../../components';
+import WalletUtils from '../../utils/wallet';
 import Footer from '../UIComponents/Footer/index';
 import { DrawerActions } from 'react-navigation';
 
@@ -50,17 +53,65 @@ class WalletReceive extends Component {
     navigation: PropTypes.shape({
       goBack: PropTypes.func.isRequired,
     }).isRequired,
+    onTokenChange: PropTypes.func.isRequired,
     walletAddress: PropTypes.string.isRequired,
   };
+
+  state = {
+    currentBalance: {
+      'balance': 0,
+      'usdBalance': 0,
+    },
+  };
+
+  onRefresh = () => {
+    this.fetchBalance();
+  }
+
+  fetchBalance = async () => {
+    const currentBalance = await WalletUtils.getBalance(
+      this.props.selectedToken,
+    );
+
+    this.setState({
+      currentBalance,
+    });
+  };
+
+  tokenChange = (val) => {
+    console.log('token change to: ', val);
+    this.props.setDefaultToken(token);
+  }
 
   render() {
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
-          <Header 
-            hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
-            onBackPress={() => this.props.navigation.goBack()} 
-            title="Receive" />
+          <LinearGradient
+            colors={['#254a81', '#254a81']}
+            locations={[0, 1]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.gradientHeader}
+          >
+            <Header 
+              hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
+              onBackPress={() => this.props.navigation.goBack()} 
+              title="Receive" />
+          
+            <BalanceRow
+              currentBalance={this.state.currentBalance}
+              onTokenChangeIconPress={() =>
+                this.props.navigation.navigate('TokenPicker')
+              }
+              onSettingsIconPress={() =>
+                this.props.navigation.navigate('Settings')
+              }
+              tokenChange={this.tokenChange}
+            />
+
+          </LinearGradient>
+
           <View style={styles.qrcodeContainer}>
             <QRCode
               color="#090909"
@@ -104,4 +155,8 @@ const mapStateToProps = state => ({
   walletAddress: state.walletAddress,
 });
 
-export default connect(mapStateToProps)(WalletReceive);
+const mapDispatchToProps = dispatch => ({
+  onTokenChange: token => dispatch({ type: SET_DEFAULT_TOKEN, token }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(WalletReceive);
