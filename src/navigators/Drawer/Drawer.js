@@ -54,12 +54,13 @@ class CustomDrawer extends Component {
     
     render () {
         
-        const {activeItemKey} = this.props;
+        const length = this.props.navigation.state.routes["0"].routes.length;
+        const activeItemKey = this.props.navigation.state.routes["0"].routes[length - 1].routeName;
 
         let activeTabStyle = [styles.navItemStyle, styles.activeLink];
         let normalTabStyle = [styles.navItemStyle];
         
-        console.log('draweritem', this.props)
+        console.log('draweritem', this.props.navigation.state.routes["0"].routes[length - 1].routeName);
         return (
           <View style={styles.container}>
             <ScrollView>
@@ -69,8 +70,8 @@ class CustomDrawer extends Component {
                 <View>
                     <View style={styles.navSectionStyle}>
                         <Text 
-                            style={activeItemKey === 'Home' ? activeTabStyle : normalTabStyle} 
-                            onPress={this.navigateToScreen('Home')}>
+                            style={activeItemKey === 'WalletHome' ? activeTabStyle : normalTabStyle} 
+                            onPress={this.navigateToScreen('WalletHome')}>
                             Home
                         </Text>
                         <Text 
@@ -84,19 +85,19 @@ class CustomDrawer extends Component {
                             Receive
                         </Text>
                         <Text 
-                            style={activeItemKey === 'Change Pin' ? activeTabStyle : normalTabStyle}
-                            onPress={this.navigateToScreen('Change Pin')}>
+                            style={activeItemKey === 'CreateWallet' ? activeTabStyle : normalTabStyle}
+                            onPress={this.navigateToScreen('CreateWallet')}>
                             Change Pin
                         </Text>
                         <Text 
-                            style={activeItemKey === 'Change Network' ? activeTabStyle : normalTabStyle}
-                            onPress={this.navigateToScreen('Change Network')}>
+                            style={activeItemKey === 'NetworkPicker' ? activeTabStyle : normalTabStyle}
+                            onPress={this.navigateToScreen('NetworkPicker')}>
                             Change Network
                         </Text>
                         <Text 
-                            style={activeItemKey === 'Show Private Key' ? activeTabStyle : normalTabStyle}
-                            onPress={this.navigateToScreen('Show Private Key')}>
-                            Show Private Key
+                            style={activeItemKey === 'PrivateKey' ? activeTabStyle : normalTabStyle}
+                            onPress={this.navigateToScreen('PrivateKey')}>
+                            Export Private Key
                         </Text>
                     </View>
                 </View>
