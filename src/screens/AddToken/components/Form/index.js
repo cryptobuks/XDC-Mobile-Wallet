@@ -35,8 +35,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     flex: 1,
     flexGrow: 1,
-    fontFamily: 'Varela Round',
-    fontSize: 25,
   },
   cameraIcon: {
     height: 23,

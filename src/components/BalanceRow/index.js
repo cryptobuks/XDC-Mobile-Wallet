@@ -56,11 +56,16 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   ModalContainer: {
-    backgroundColor: 'coral',
+    backgroundColor: 'transparent',
+    padding: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   ModalView: {
     backgroundColor: '#fff',
-    flex: 1,
+    width: '90%',
+    height: 200,
   },
 });
 

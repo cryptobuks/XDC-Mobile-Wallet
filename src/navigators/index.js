@@ -1,7 +1,7 @@
 import { 
   createStackNavigator, 
   createSwitchNavigator,
-  DrawerNavigator,
+  createDrawerNavigator,
 } from 'react-navigation';
 import {Easing, Animated} from 'react-native';
 import {
@@ -153,22 +153,8 @@ const WalletNavigator = createStackNavigator(
   },
 );
 
-const DrawerNavigation = DrawerNavigator({
-  'Home': {
-      screen: WalletHomeScreen,
-  },
-  'Send': {
-      screen: WalletSendScreen,
-  },
-  'Change Pin': {
-    screen: CreateWalletScreen,
-  },
-  'Change Network': {
-    screen: NetworkPickerScreen,
-  },
-  'Show Private Key':{
-    screen:PrivateKeyScreen,
-  }
+const DrawerNavigation = createDrawerNavigator({
+  Welcome: WalletMainNavigator,
 },
 {
   contentComponent: CustomDrawer,
@@ -184,9 +170,9 @@ export default createSwitchNavigator(
   {
     AppLoading: AppLoadingScreen,
     PinCode: PinCodeScreen,
-    Wallet: WalletNavigator,
+    // Wallet: WalletNavigator,
+    Wallet: DrawerNavigation,
     Welcome: WelcomeNavigator,
-    Drawer: DrawerNavigation,
   },
   {
     initialRouteName: 'AppLoading',

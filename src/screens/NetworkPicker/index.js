@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { Alert, SafeAreaView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { StackActions, NavigationActions } from 'react-navigation';
+import { StackActions, NavigationActions, DrawerActions } from 'react-navigation';
 import { GradientBackground, Header, Menu } from '../../components';
 import { RESET_TOKENS, SET_NETWORK } from '../../config/actionTypes';
+import Footer from '../UIComponents/Footer/';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
-    paddingBottom: 15,
   },
 });
 
@@ -27,21 +27,14 @@ class NetworkPicker extends Component {
 
   menuOptions = [
     {
-      title: 'XDC Mainnet',
+      title: 'Public Network',
       onPress: () => this.setNetwork('mainnet'),
     },
     {
-      title: 'XDC Ropsten',
+      title: 'Private Network',
       onPress: () => this.setNetwork('ropsten'),
     },
-    {
-      title: 'XDC Kovan',
-      onPress: () => this.setNetwork('kovan'),
-    },
-    {
-      title: 'XDC Rinkeby',
-      onPress: () => this.setNetwork('rinkeby'),
-    },
+   
   ];
 
   setNetwork = network => {
@@ -80,10 +73,24 @@ class NetworkPicker extends Component {
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <Header
+            hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
             onBackPress={() => this.props.navigation.goBack()}
             title="Change network"
           />
+
           <Menu options={this.menuOptions} />
+
+          <Footer
+            activeTab="home"
+            onReceivePress={() => this.props.navigation.navigate('Receive')}
+            onHomePress={() => this.props.navigation.navigate('WalletHome')}
+            onSendPress={() =>
+              this.props.navigation.navigate('Send', {
+                onTokenChange: this.onTokenChange,
+              })
+            }
+            ontransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
+          />
         </SafeAreaView>
       </GradientBackground>
     );
