@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import {NavigationActions, DrawerItems, DrawerItem} from 'react-navigation';
-import {StyleSheet , Image, ScrollView, Text, View, Alert} from 'react-native';
+import {StyleSheet , Image, ScrollView, Text, View, Alert, TouchableOpacity} from 'react-native';
 import logo from './images/logo.png';
 import PropTypes from 'prop-types';
+import { persistor } from '../../config/store';
 import { LOGOUT } from '../../config/actionTypes';
 
 const styles = StyleSheet.create({
@@ -45,11 +47,13 @@ const styles = StyleSheet.create({
 
 
 class CustomDrawer extends Component {
-    navigateToScreen = (route) => () => {
+    navigateToScreen = (route, editMode) => () => {
         const navigateAction = NavigationActions.navigate({
-        routeName: route
-    });
-        this.props.navigation.dispatch(navigateAction);
+            routeName: route
+        });
+        this.props.navigation.dispatch(navigateAction, {
+            editMode: editMode,
+        });
     }
     
     render () {
@@ -71,39 +75,75 @@ class CustomDrawer extends Component {
                     <View style={styles.navSectionStyle}>
                         <Text 
                             style={activeItemKey === 'WalletHome' ? activeTabStyle : normalTabStyle} 
-                            onPress={this.navigateToScreen('WalletHome')}>
+                            onPress={this.navigateToScreen('WalletHome', false)}>
                             Home
                         </Text>
                         <Text 
                             style={activeItemKey === 'Send' ? activeTabStyle : normalTabStyle}
-                            onPress={this.navigateToScreen('Send')}>
+                            onPress={this.navigateToScreen('Send', false)}>
                             Send
                         </Text>
                         <Text 
                             style={activeItemKey === 'Receive' ? activeTabStyle : normalTabStyle}
-                            onPress={this.navigateToScreen('Receive')}>
+                            onPress={this.navigateToScreen('Receive', false)}>
                             Receive
                         </Text>
                         <Text 
                             style={activeItemKey === 'CreateWallet' ? activeTabStyle : normalTabStyle}
-                            onPress={this.navigateToScreen('CreateWallet')}>
+                            onPress={this.navigateToScreen('CreateWallet', true)}>
                             Change Pin
                         </Text>
                         <Text 
                             style={activeItemKey === 'NetworkPicker' ? activeTabStyle : normalTabStyle}
-                            onPress={this.navigateToScreen('NetworkPicker')}>
+                            onPress={this.navigateToScreen('NetworkPicker', false)}>
                             Change Network
                         </Text>
                         <Text 
                             style={activeItemKey === 'PrivateKey' ? activeTabStyle : normalTabStyle}
-                            onPress={this.navigateToScreen('PrivateKey')}>
+                            onPress={this.navigateToScreen('PrivateKey', false)}>
                             Export Private Key
                         </Text>
                     </View>
                 </View>
             </ScrollView>
             <View style={styles.footerContainer}>
-              <Text>footer</Text>
+                <TouchableOpacity
+                    onPress = { () => 
+                        Alert.alert(
+                          'Logout',
+                          'Your wallet will be erased from your device. Make sure to backup your private key before going further.',
+                          [
+                            {
+                              text: 'Cancel',
+                              onPress: () => {},
+                              style: 'cancel',
+                            },
+                            {
+                              text: 'OK',
+                              onPress: async () => {
+                                await this.props.logout();
+                                this.props.navigation.navigate('SignUp');
+                              },
+                            },
+                          ],
+                          { cancelable: false },
+                        ) 
+                    // onPress={()=>
+                    //     Alert.alert(
+                    //         'Log out',
+                    //         'Do you want to logout?',
+                    //         [
+                    //         {text: 'Cancel', onPress: () => {return null}},
+                    //         {text: 'Confirm', onPress: () => {
+                    //             Asyncstorage.clear();
+                    //             this.props.navigation.navigate('Home')
+                    //         }},
+                    //         ],
+                    //         { cancelable: false }
+                    //     )  
+                }>
+                    <Text style={{fontWeight: 'bold'}}>Logout</Text>
+                </TouchableOpacity>
             </View>
           </View>
         );
@@ -115,4 +155,11 @@ CustomDrawer.propTypes = {
     logout: PropTypes.func,
 };
 
-export default CustomDrawer;
+const mapDispatchToProps = dispatch => ({
+    logout: async () => {
+      dispatch({ type: LOGOUT });
+      await persistor.flush();
+    },
+});
+
+export default connect(null, mapDispatchToProps)(CustomDrawer);
