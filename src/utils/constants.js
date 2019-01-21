@@ -20,6 +20,15 @@ const defaultTokens = [
     currencySymbol: 'USD',
     network: 'ropsten',
   },
+  {
+    name: 'DAIVIK',
+    id: uuid.v4(),
+    symbol: 'DAI',
+    contractAddress: "0x5B0e5360CC8974A007da9F05BeDc3d370e1a924f",
+    decimals: 18,
+    currencySymbol: 'USD',
+    network: 'ropsten',
+  },
 ];
 
 const erc20Abi = [

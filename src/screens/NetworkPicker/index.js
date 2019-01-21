@@ -27,21 +27,14 @@ class NetworkPicker extends Component {
 
   menuOptions = [
     {
-      title: 'XDC Mainnet',
+      title: 'Public Network',
       onPress: () => this.setNetwork('mainnet'),
     },
     {
-      title: 'XDC Ropsten',
+      title: 'Private Network',
       onPress: () => this.setNetwork('ropsten'),
     },
-    {
-      title: 'XDC Kovan',
-      onPress: () => this.setNetwork('kovan'),
-    },
-    {
-      title: 'XDC Rinkeby',
-      onPress: () => this.setNetwork('rinkeby'),
-    },
+   
   ];
 
   setNetwork = network => {

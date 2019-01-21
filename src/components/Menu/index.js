@@ -11,6 +11,7 @@ import {
 import Swipeout from 'react-native-swipeout';
 import Text from '../Text';
 import arrow from './images/arrow.png';
+import check from './images/success.png'
 
 const styles = StyleSheet.create({
   listContainer: {
@@ -18,8 +19,8 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     borderBottomWidth: 1,
-    borderColor: '#372F49',
-    paddingVertical: 5,
+    borderColor: '#254a81',
+    paddingVertical: 25,
     paddingHorizontal: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -31,8 +32,8 @@ const styles = StyleSheet.create({
     height: '100%'
   },
   rowIcon: {
-    height: 15,
-    width: 15,
+    height: 25,
+    width: 25,
   },
 });
 
@@ -78,7 +79,7 @@ export default class Menu extends Component {
       <TouchableOpacity onPress={option.onPress} key={index}>
         <View style={styles.rowContainer}>
           <Text style={styles.rowText}>{option.title}</Text>
-          <Image source={arrow} style={styles.rowIcon} />
+          <Image source={check} style={styles.rowIcon} />
         </View>
       </TouchableOpacity>
     );
