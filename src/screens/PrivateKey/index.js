@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { SafeAreaView, Share, StyleSheet, View } from 'react-native';
+import { DrawerActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -8,13 +9,13 @@ import {
   SecondaryButton,
   Text,
 } from '../../components';
+import Footer from '../UIComponents/Footer/';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
-    paddingBottom: 15,
   },
   privateKeyTitle: {
     paddingHorizontal: 15,
@@ -47,6 +48,7 @@ class PrivateKey extends Component {
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <Header
+            hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
             onBackPress={() => this.props.navigation.goBack()}
             title="Private key"
           />
@@ -65,6 +67,18 @@ class PrivateKey extends Component {
               text="Export"
             />
           </View>
+
+          <Footer
+            activeTab="home"
+            onReceivePress={() => this.props.navigation.navigate('Receive')}
+            onHomePress={() => this.props.navigation.navigate('WalletHome')}
+            onSendPress={() =>
+              this.props.navigation.navigate('Send', {
+                onTokenChange: this.onTokenChange,
+              })
+            }
+            ontransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
+          />
         </SafeAreaView>
       </GradientBackground>
     );

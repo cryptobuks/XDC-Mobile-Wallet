@@ -14,8 +14,7 @@ const styles = StyleSheet.create({
     navItemStyle: {
         padding: 15,
         fontSize:20,
-        fontWeight:"bold",
-        color:"#000"
+        color:"#333"
     },
     navSectionStyle: {
     },
