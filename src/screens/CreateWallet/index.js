@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, SafeAreaView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
+import { DrawerActions } from 'react-navigation';
 import PropTypes from 'prop-types';
 import WalletUtils from '../../utils/wallet';
 import {
@@ -10,14 +11,18 @@ import {
   PinKeyboard,
   Text,
 } from '../../components';
+
 import { SET_PIN_CODE } from '../../config/actionTypes';
+import Footer from '../UIComponents/Footer/';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
-    paddingBottom: 15,
+  },
+  topContainer: {
+    flex: 1,
   },
   explanatoryTextContainer: {
     height: 80,
@@ -25,7 +30,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 50,
   },
   explanatoryText: {
-    color: '#fff',
+    color: '#000',
     fontSize: 13,
     textAlign: 'center',
   },
@@ -148,10 +153,25 @@ class CreateWallet extends Component {
       ? 'Change PIN'
       : 'Create PIN';
 
+    const IsFooter = this.props.navigation.getParam('editMode', false) ?
+          <Footer
+            activeTab="home"
+            onReceivePress={() => this.props.navigation.navigate('Receive')}
+            onHomePress={() => this.props.navigation.navigate('WalletHome')}
+            onSendPress={() =>
+              this.props.navigation.navigate('Send', {
+                onTokenChange: this.onTokenChange,
+              })
+            }
+            ontransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
+          />
+    : null;
+
     return (
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <Header
+            hamBurgerPress={this.props.navigation.getParam('editMode', false)? () => this.props.navigation.dispatch(DrawerActions.openDrawer()) : null}
             onBackPress={
               this.props.navigation.getParam('migrationMode', false)
                 ? null
@@ -159,20 +179,25 @@ class CreateWallet extends Component {
             }
             title={this.state.isConfirmation ? 'Repeat PIN' : originalTitle}
           />
-          <View style={styles.explanatoryTextContainer}>
-            <Text style={styles.explanatoryText}>
-              {this.state.isConfirmation
-                ? "Just to make sure it's correct"
-                : "This PIN will be used to access your XDCWALLET. If you forget it, you won't be able to access your wallet."}
-            </Text>
-          </View>
+          <View style={styles.topContainer}>
+            <View style={styles.explanatoryTextContainer}>
+              <Text style={styles.explanatoryText}>
+                {this.state.isConfirmation
+                  ? "Just to make sure it's correct"
+                  : "This PIN will be used to access your XDCWALLET. If you forget it, you won't be able to access your wallet."}
+              </Text>
+            </View>
 
-          <PinIndicator length={pinCode.length} />
-          <PinKeyboard
-            onBackPress={this.onBackPress}
-            onKeyPress={this.onKeyPress}
-            showBackButton={pinCode.length > 0}
-          />
+            <PinIndicator length={pinCode.length} />
+            <PinKeyboard
+              onBackPress={this.onBackPress}
+              onKeyPress={this.onKeyPress}
+              showBackButton={pinCode.length > 0}
+            />
+          </View>
+          
+          {IsFooter}
+          
         </SafeAreaView>
       </GradientBackground>
     );

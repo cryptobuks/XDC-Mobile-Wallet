@@ -63,11 +63,12 @@ const styles = StyleSheet.create({
 class CustomDrawer extends Component {
     navigateToScreen = (route, editMode) => () => {
         const navigateAction = NavigationActions.navigate({
-            routeName: route
+            routeName: route,
+            params: {
+                editMode: editMode
+            },
         });
-        this.props.navigation.dispatch(navigateAction, {
-            editMode: editMode,
-        });
+        this.props.navigation.dispatch(navigateAction);
     }
     
     render () {
