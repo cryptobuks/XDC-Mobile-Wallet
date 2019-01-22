@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppState, Alert, SafeAreaView, StyleSheet, View } from 'react-native';
+import { AppState, Alert, SafeAreaView, StyleSheet, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GradientBackground, Text, Header } from '../../components';
@@ -232,9 +232,9 @@ class WalletHome extends Component {
             }}
             title="Dashboard"
           />
-          <View style={styles.topContainer}>
+          <ScrollView style={styles.topContainer}>
             <Balances currentBalance={this.state.currentBalance} />
-          </View>
+          </ScrollView>
           {/* <View style={styles.topContainer}>
             <View style={styles.gradientHeaderWrapper}>
               <LinearGradient

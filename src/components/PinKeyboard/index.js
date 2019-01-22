@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   keyboardKey: {
     flex: 1,
     flexGrow: 1,
-    paddingVertical: 20,
+    paddingVertical: 10,
   },
   textPlaceholder: {
     color: 'transparent',
