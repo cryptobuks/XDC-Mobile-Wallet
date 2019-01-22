@@ -3,6 +3,13 @@ import { connect } from 'react-redux';
 import {NavigationActions, DrawerItems, DrawerItem} from 'react-navigation';
 import {StyleSheet , Image, ScrollView, Text, View, Alert, TouchableOpacity} from 'react-native';
 import logo from './images/logo.png';
+import logout from './images/logout.png';
+import home from './images/home.png';
+import network from './images/network.png';
+import send from './images/send.png';
+import receive from './images/receive.png';
+import login from './images/login.png';
+import privatekey from './images/private.png';
 import PropTypes from 'prop-types';
 import { persistor } from '../../config/store';
 import { LOGOUT } from '../../config/actionTypes';
@@ -14,9 +21,12 @@ const styles = StyleSheet.create({
     navItemStyle: {
         padding: 15,
         fontSize:20,
-        color:"#333"
+        color:"#000"
     },
     navSectionStyle: {
+        flexDirection:"row",
+        alignItems:"center",
+        width:"100%"
     },
     sectionHeadingStyle: {
         paddingVertical: 10,
@@ -33,7 +43,7 @@ const styles = StyleSheet.create({
         height: 75,
     },
     drawerContainer: {
-        height: 150,
+        height: 100,
         backgroundColor: '#254a81',
         justifyContent: 'center',
         alignItems: 'center',
@@ -41,6 +51,11 @@ const styles = StyleSheet.create({
     activeLink: {
         color: '#254a81',
         backgroundColor: '#efefef',
+    },
+    Icon:{
+        width:22,
+        height:22,
+        
     }
 });
 
@@ -72,31 +87,47 @@ class CustomDrawer extends Component {
                 </View>
                 <View>
                     <View style={styles.navSectionStyle}>
+                    <Image source={home} style={styles.Icon}/>
                         <Text 
                             style={activeItemKey === 'WalletHome' ? activeTabStyle : normalTabStyle} 
                             onPress={this.navigateToScreen('WalletHome', false)}>
                             Home
                         </Text>
+                        </View>
+                        <View style={styles.navSectionStyle}>
+                        <Image source={send} style={styles.Icon}/>
                         <Text 
                             style={activeItemKey === 'Send' ? activeTabStyle : normalTabStyle}
                             onPress={this.navigateToScreen('Send', false)}>
                             Send
                         </Text>
+                        </View>
+                        <View style={styles.navSectionStyle}>
+                        <Image source={receive} style={styles.Icon}/>
                         <Text 
                             style={activeItemKey === 'Receive' ? activeTabStyle : normalTabStyle}
                             onPress={this.navigateToScreen('Receive', false)}>
                             Receive
                         </Text>
+                        </View>
+                        <View style={styles.navSectionStyle}>
+                        <Image source={login} style={styles.Icon}/>
                         <Text 
                             style={activeItemKey === 'CreateWallet' ? activeTabStyle : normalTabStyle}
                             onPress={this.navigateToScreen('CreateWallet', true)}>
                             Change Pin
                         </Text>
+                        </View>
+                        <View style={styles.navSectionStyle}>
+                        <Image source={network} style={styles.Icon}/>
                         <Text 
                             style={activeItemKey === 'NetworkPicker' ? activeTabStyle : normalTabStyle}
                             onPress={this.navigateToScreen('NetworkPicker', false)}>
                             Change Network
                         </Text>
+                        </View>
+                        <View style={styles.navSectionStyle}>
+                        <Image source={privatekey} style={styles.Icon}/>
                         <Text 
                             style={activeItemKey === 'PrivateKey' ? activeTabStyle : normalTabStyle}
                             onPress={this.navigateToScreen('PrivateKey', false)}>
@@ -106,6 +137,7 @@ class CustomDrawer extends Component {
                 </View>
             </ScrollView>
             <View style={styles.footerContainer}>
+            <Image source={logout} style={styles.Icon}/>
                 <TouchableOpacity
                     onPress = { () => 
                         Alert.alert(
