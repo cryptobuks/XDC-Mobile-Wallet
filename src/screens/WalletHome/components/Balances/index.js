@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Text } from '../../../../components';
@@ -8,13 +8,13 @@ import { PieChart } from 'react-native-svg-charts';
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    backgroundColor: '#eee',
+    backgroundColor: 'transparent',
     padding: 20,
     flex: 1,
   },
   balanceWrap: {
     justifyContent: 'center',
-    paddingVertical: 20,
+    paddingVertical: 50,
     paddingHorizontal: 20,
     width: '100%',
     backgroundColor: '#fff',
@@ -102,7 +102,7 @@ class Balances extends Component {
 
     
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.balanceWrap}>
           <PieChart
               style={{ height: 175, width: '100%' }}
@@ -158,7 +158,7 @@ class Balances extends Component {
             </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

@@ -18,14 +18,14 @@ import { DrawerActions } from 'react-navigation';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#eee',
     flex: 1,
     justifyContent: 'space-between',
     paddingTop: 0,
   },
   topContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'transparent',
   },
   gradientHeaderWrapper: {
     height: 150,

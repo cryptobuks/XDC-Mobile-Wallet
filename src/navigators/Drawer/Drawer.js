@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import {NavigationActions, DrawerItems, DrawerItem} from 'react-navigation';
-import {StyleSheet , Image, ScrollView, Text, View, Alert, TouchableOpacity} from 'react-native';
+import {StyleSheet , Image, ScrollView, Text, View, Alert, TouchableOpacity, Linking} from 'react-native';
 import logo from './images/logo.png';
 import logout from './images/logout.png';
 import home from './images/home.png';
@@ -88,46 +88,46 @@ class CustomDrawer extends Component {
                 </View>
                 <View>
                     <View style={styles.navSectionStyle}>
-                    <Image source={home} style={styles.Icon}/>
+                        <Image source={home} style={styles.Icon}/>
                         <Text 
                             style={activeItemKey === 'WalletHome' ? activeTabStyle : normalTabStyle} 
                             onPress={this.navigateToScreen('WalletHome', false)}>
                             Home
                         </Text>
-                        </View>
-                        <View style={styles.navSectionStyle}>
+                    </View>
+                    <View style={styles.navSectionStyle}>
                         <Image source={send} style={styles.Icon}/>
                         <Text 
                             style={activeItemKey === 'Send' ? activeTabStyle : normalTabStyle}
                             onPress={this.navigateToScreen('Send', false)}>
                             Send
                         </Text>
-                        </View>
-                        <View style={styles.navSectionStyle}>
+                    </View>
+                    <View style={styles.navSectionStyle}>
                         <Image source={receive} style={styles.Icon}/>
                         <Text 
                             style={activeItemKey === 'Receive' ? activeTabStyle : normalTabStyle}
                             onPress={this.navigateToScreen('Receive', false)}>
                             Receive
                         </Text>
-                        </View>
-                        <View style={styles.navSectionStyle}>
+                    </View>
+                    <View style={styles.navSectionStyle}>
                         <Image source={login} style={styles.Icon}/>
                         <Text 
                             style={activeItemKey === 'CreateWallet' ? activeTabStyle : normalTabStyle}
                             onPress={this.navigateToScreen('CreateWallet', true)}>
                             Change Pin
                         </Text>
-                        </View>
-                        <View style={styles.navSectionStyle}>
+                    </View>
+                    <View style={styles.navSectionStyle}>
                         <Image source={network} style={styles.Icon}/>
                         <Text 
                             style={activeItemKey === 'NetworkPicker' ? activeTabStyle : normalTabStyle}
                             onPress={this.navigateToScreen('NetworkPicker', false)}>
                             Change Network
                         </Text>
-                        </View>
-                        <View style={styles.navSectionStyle}>
+                    </View>
+                    <View style={styles.navSectionStyle}>
                         <Image source={privatekey} style={styles.Icon}/>
                         <Text 
                             style={activeItemKey === 'PrivateKey' ? activeTabStyle : normalTabStyle}
@@ -135,10 +135,20 @@ class CustomDrawer extends Component {
                             Export Private Key
                         </Text>
                     </View>
+                    <View style={styles.navSectionStyle}>
+                        <Image source={privatekey} style={styles.Icon}/>
+                        <TouchableOpacity
+                            onPress = { () => 
+                            {
+                                Linking.openURL('http://google.com')
+                            }} >
+                            <Text style={normalTabStyle}>Login to Web Wallet</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </ScrollView>
             <View style={styles.footerContainer}>
-            <Image source={logout} style={styles.Icon}/>
+                <Image source={logout} style={styles.Icon}/>
                 <TouchableOpacity
                     onPress = { () => 
                         Alert.alert(
