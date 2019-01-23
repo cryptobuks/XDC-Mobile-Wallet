@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
     navItemStyle: {
         padding: 15,
         fontSize:20,
-        color:"#000"
+        color:"#000",
+        width: '100%',
     },
     navSectionStyle: {
         flexDirection:"row",
@@ -33,7 +34,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
     },
     footerContainer: {
-        padding: 20,
+        flexDirection: 'row',
+        width: '100%',
+        alignItems: 'center',
+        padding: 10,
         backgroundColor: 'lightgrey'
     },
     drawerHeader: {
@@ -50,12 +54,12 @@ const styles = StyleSheet.create({
     },
     activeLink: {
         color: '#254a81',
-        backgroundColor: '#efefef',
+        // backgroundColor: '#efefef',
     },
     Icon:{
         width:22,
         height:22,
-        
+        marginHorizontal: 10,
     }
 });
 
@@ -109,6 +113,14 @@ class CustomDrawer extends Component {
                             style={activeItemKey === 'Receive' ? activeTabStyle : normalTabStyle}
                             onPress={this.navigateToScreen('Receive', false)}>
                             Receive
+                        </Text>
+                    </View>
+                    <View style={styles.navSectionStyle}>
+                        <Image source={receive} style={styles.Icon}/>
+                        <Text 
+                            style={activeItemKey === 'AddToken' ? activeTabStyle : normalTabStyle}
+                            onPress={this.navigateToScreen('AddToken', false)}>
+                            Add New Token
                         </Text>
                     </View>
                     <View style={styles.navSectionStyle}>
@@ -169,21 +181,9 @@ class CustomDrawer extends Component {
                             },
                           ],
                           { cancelable: false },
-                        ) 
-                    // onPress={()=>
-                    //     Alert.alert(
-                    //         'Log out',
-                    //         'Do you want to logout?',
-                    //         [
-                    //         {text: 'Cancel', onPress: () => {return null}},
-                    //         {text: 'Confirm', onPress: () => {
-                    //             Asyncstorage.clear();
-                    //             this.props.navigation.navigate('Home')
-                    //         }},
-                    //         ],
-                    //         { cancelable: false }
-                    //     )  
-                }>
+                        )
+                    }
+                >
                     <Text style={{fontWeight: 'bold'}}>Logout</Text>
                 </TouchableOpacity>
             </View>

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, TouchableOpacity, View, ScrollView } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View, ScrollView, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Text } from '../../../../components';
 import { PieChart } from 'react-native-svg-charts';
+import WalletUtils from '../../../../utils/wallet';
 
 const styles = StyleSheet.create({
   container: {
@@ -61,7 +62,8 @@ class Balances extends Component {
       label: '',
       value: 0
     },
-    labelWidth: 0
+    labelWidth: 0,
+    tokenList: null,
   }
 
   static propTypes = {
@@ -70,7 +72,17 @@ class Balances extends Component {
       name: PropTypes.string.isRequired,
       symbol: PropTypes.string.isRequired,
     }).isRequired,
-  };
+  }
+
+  componentWillMount() {
+    AsyncStorage.getItem('availableTokens')
+    .then(r => {
+      console.log('datalist balances:::', JSON.parse(r));
+      this.setState({
+        tokenList: JSON.parse(r),
+      });
+    }).catch(e=>console.log(e));
+  }
 
   render() {
     const {
@@ -78,6 +90,29 @@ class Balances extends Component {
       selectedToken,
     } = this.props;
 
+    let tokens = null;
+
+    console.log('tokenlist state',this.state.tokenList);
+    if(this.state.tokenList) {
+      this.state.tokenList.map(token => {
+        WalletUtils.getBalance(token).then(r => console.log('balance inside loop', r)).catch(e => console.log('error inside loop', e));
+        // console.log('balance inside loop', balance);
+        // if(balance) {
+        //   tokens += 
+        //     <View style={[styles.balanceDetails, {}]}>
+        //       <View style={{width: '70%', borderTopColor: colors[0], borderTopWidth: 5}}>
+        //         <Text style={styles.tokenName} letterSpacing={2}>
+        //           {this.props.selectedToken.name}
+        //         </Text>
+        //         <Text style={{color: '#333'}} letterSpacing={2}>
+        //           {/* {currentBalance.usdBalance.toFixed(2)} */}
+        //           {balance}
+        //         </Text>
+        //       </View>
+        //     </View>
+        // }
+      })
+    }
 
     const { labelWidth, selectedSlice } = this.state;
     const { label, value } = selectedSlice;

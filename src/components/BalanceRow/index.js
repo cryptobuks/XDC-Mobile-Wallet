@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Text } from '../index';
 import Modal from 'react-native-modal'
-import TokenList from '../../screens/TokenPicker';
+import TokenPicker from '../../screens/TokenPicker';
 
 import switchIcon from './images/switch.png';
 
@@ -128,7 +128,7 @@ class BalanceRow extends Component {
         isVisible={this.state.isModalVisible} 
         style={styles.ModalContainer}>
         <View style={styles.ModalView}>
-          <TokenList toggleModal={this.toggleModal} />
+          <TokenPicker toggleModal={this.toggleModal} />
         </View>
       </Modal>
 
