@@ -5,8 +5,6 @@ import EthereumTx from 'ethereumjs-tx';
 import ProviderEngine from 'web3-provider-engine';
 import WalletSubprovider from 'web3-provider-engine/subproviders/wallet';
 import ProviderSubprovider from 'web3-provider-engine/subproviders/provider';
-// import Passport from 'passport';
-// import googleStrategy from 'passport-google-oauth20';
 import { store } from '../config/store';
 import contractAbi from './XDCAbi';
 import {
@@ -75,21 +73,6 @@ export default class WalletUtils {
     return EthereumJsWallet.fromPrivateKey(Buffer.from(privateKey, 'hex'));
   }
 
-  // static getWeb3HTTPProvider() {
-  //   switch (store.getState().network) {
-  //     default:
-  //       return new Web3.providers.HttpProvider(
-  //         "https://ropsten.infura.io/v3/f060477f35da4c4b85e403b978b17d55"
-  //         );
-  //   }
-  // }
-
-  // static getEtherscanApiSubdomain() {
-  //   switch (store.getState().network) {
-  //     default:
-  //       return 'ropsten';
-  //   }
-  // }
 
   static getWeb3HTTPProvider() {
     switch (store.getState().network) {
@@ -225,14 +208,7 @@ export default class WalletUtils {
   }
 
 
-  /**
-   * Google Sign in
-   *
-   * 
-   */
-  static OAuthSignIn() {
 
-  }
 
   /**
    * Get the user's wallet balance of a given token
@@ -240,18 +216,15 @@ export default class WalletUtils {
    * @param {Object} token
    */
   static getBalance({ contractAddress, symbol, decimals }) {
-    console.log('2', contractAddress);
-    console.log('3', decimals);
-
+    console.log('Contract Address is: ', contractAddress);
+    console.log('Token Decimals is: ', decimals);
     return this.getERC20Balance(contractAddress, decimals);
-
   }
 
   /**
    * Get the user's wallet ETH balance
    */
   static getERC20Balance(contractAddress, decimals) {
-
     const { walletAddress, privateKey } = store.getState();
     console.log('walletAddress', walletAddress)
     console.log('privateKey', privateKey)
@@ -337,12 +310,12 @@ export default class WalletUtils {
     return new Promise((resolve, reject) => {
 
       web3.eth.getGasPrice(function (error, gasPrice) {
-        console.log('zsdrmfgjmnbdxrjkgnjkdx', error, gasPrice/Math.pow(10,18));
+        console.log('zsdrmfgjmnbdxrjkgnjkdx', error, gasPrice / Math.pow(10, 18));
         web3.eth.estimateGas({
           to: contractAddress,
           data: web3.eth.contract(contractAbi).
-          at(contractAddress)
-          .transfer.getData(toAddress, amount * Math.pow(10, decimals), { from: walletAddress })
+            at(contractAddress)
+            .transfer.getData(toAddress, amount * Math.pow(10, decimals), { from: walletAddress })
         }, function (err, gasLimit) {
           console.log('err gas limit:', err)
           console.log('err gas limit:', gasLimit)

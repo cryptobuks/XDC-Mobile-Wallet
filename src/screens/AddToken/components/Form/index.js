@@ -16,14 +16,14 @@ import cameraIcon from './images/camera.png';
 
 const styles = StyleSheet.create({
   formElement: {
-    borderBottomColor: '#3a3a3a',
+    borderBottomColor: '#000',
     borderBottomWidth: 1,
     paddingHorizontal: 15,
     paddingTop: Platform.OS === 'ios' ? 20 : 30,
     paddingBottom: 15,
   },
   formLabel: {
-    color: '#9d9d9d',
+    color: '#000',
     paddingLeft: Platform.OS === 'ios' ? 0 : 4,
     paddingBottom: Platform.OS === 'ios' ? 10 : 0,
   },
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   formInput: {
-    color: '#fff',
+    color: '#000',
     flex: 1,
     flexGrow: 1,
   },

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Text } from '../../../components';
 import sendIcon from './images/send.png';
 import qrcodeIcon from './images/qrcode.png';
-import settingsIcon from './images/settings.png';
+import transfer from './images/transfer.png';
 import LinearGradient from 'react-native-linear-gradient';
 
 const styles = StyleSheet.create({
@@ -120,7 +120,7 @@ class Footer extends Component {
             onPress={ontransactionsPress}
             style={activeTab === "transactions" ? activeTabStyle : normalTabStyle}
           >
-            <Image source={settingsIcon} style={styles.buttonIcon} />
+            <Image source={transfer} style={styles.buttonIcon} />
             <Text style={styles.buttonText}>Transactions</Text>
           </TouchableOpacity>
           
