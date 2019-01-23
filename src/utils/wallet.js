@@ -90,7 +90,8 @@ export default class WalletUtils {
         );
       default:
         return new Web3.providers.HttpProvider(
-          "https://ropsten.infura.io/v3/f060477f35da4c4b85e403b978b17d55",
+          // "https://ropsten.infura.io/v3/f060477f35da4c4b85e403b978b17d55",
+          "https://ropsten.infura.io/v3/f060477f35da4c4b85e403b978b17d55"
         );
     }
   }
