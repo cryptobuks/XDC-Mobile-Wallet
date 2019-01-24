@@ -231,6 +231,8 @@ export default class WalletUtils {
     console.log('privateKey', privateKey)
     const web3 = new Web3(this.getWeb3HTTPProvider());
 
+
+
     return new Promise((resolve, reject) => {
       var MyContract = web3.eth.contract(contractAbi);
       // get ether balance
@@ -288,23 +290,25 @@ export default class WalletUtils {
     amount,
   ) {
     console.log(contractAddress, symbol, decimals, toAddress, amount)
-
-    return this.sendETHTransaction(contractAddress, decimals, toAddress, amount);
+    if(symbol==='MXDC'){
+      return this.sendETHTransaction(toAddress,amount);
+    }
+    return this.sendERC20Transaction(contractAddress, decimals, toAddress, amount);
   }
 
 
   /**
-   * Send an ETH transaction to the given address with the given amount
+   * Send an ERC20 transaction to the given address with the given amount
    *
    * @param {String} toAddress
    * @param {String} amount
    */
-  static sendETHTransaction(contractAddress, decimals, toAddress, amount) {
+  static sendERC20Transaction(contractAddress, decimals, toAddress, amount) {
     const { walletAddress, privateKey } = store.getState();
     const web3 = this.getWeb3Instance();
 
 
-    AnalyticsUtils.trackEvent('Send ETH transaction', {
+    AnalyticsUtils.trackEvent('Send ERC20 transaction', {
       value: amount,
     });
 
@@ -335,7 +339,6 @@ export default class WalletUtils {
             }
 
             const tx = new EthereumTx(txParams)
-
             console.log('tx:::', tx);
             tx.sign(Buffer.from(privateKey, 'hex'));
             const serializedTx = tx.serialize();
@@ -354,54 +357,28 @@ export default class WalletUtils {
         });
       });
     });
-
-    // return new Promise((resolve, reject) => {
-    //   web3.eth.sendTransaction(
-    //     {
-    //       to: toAddress,
-    //       value: web3.toWei(amount),
-    //     },
-    //     (error, transaction) => {
-    //       if (error) {
-    //         reject(error);
-    //       }
-
-    //       resolve(transaction);
-    //     },
-    //   );
-    // });
   }
 
-  /**
-   * Send an ETH transaction to the given address with the given amount
-   *
-   * @param {String} toAddress
-   * @param {String} amount
-   */
-  static sendERC20Transaction(contractAddress, decimals, toAddress, amount) {
-    const web3 = this.getWeb3Instance();
 
-    AnalyticsUtils.trackEvent('Send ERC20 transaction', {
-      contractAddress,
-      value: amount,
-    });
+  // Send an ETH(MXDC) transaction to the given address with the given amount
 
-    return new Promise((resolve, reject) => {
+  static sendETHTransaction(toAddress,amount){
+     return new Promise((resolve, reject) => {
+      web3.eth.sendTransaction(
+        {
+          to: toAddress,
+          value: web3.toWei(amount),
+        },
+        (error, transaction) => {
+          console.log("MXDC Transaction error",error);
+          console.log("MXDC Transaction successs",transaction);
+          if (error) {
+            reject(error);
+          }
 
-      web3.eth
-        .contract(erc20Abi)
-        .at(contractAddress)
-        .transfer(
-          toAddress,
-          amount / Math.pow(10, decimals),
-          (error, transaction) => {
-            if (error) {
-              reject(error);
-            }
-
-            resolve(transaction);
-          },
-        );
+          resolve(transaction);
+        },
+      );
     });
   }
 }
