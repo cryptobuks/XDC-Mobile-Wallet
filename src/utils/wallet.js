@@ -90,8 +90,7 @@ export default class WalletUtils {
         );
       default:
         return new Web3.providers.HttpProvider(
-          // "https://ropsten.infura.io/v3/f060477f35da4c4b85e403b978b17d55",
-          "https://ropsten.infura.io/v3/f060477f35da4c4b85e403b978b17d55"
+          "https://ropsten.infura.io/v3/f060477f35da4c4b85e403b978b17d55",
         );
     }
   }
@@ -209,7 +208,7 @@ export default class WalletUtils {
   }
 
 
-
+  
 
   /**
    * Get the user's wallet balance of a given token
@@ -226,6 +225,7 @@ export default class WalletUtils {
    * Get the user's wallet ETH balance
    */
   static getERC20Balance(contractAddress, decimals) {
+
     const { walletAddress, privateKey } = store.getState();
     console.log('walletAddress', walletAddress)
     console.log('privateKey', privateKey)
@@ -311,12 +311,12 @@ export default class WalletUtils {
     return new Promise((resolve, reject) => {
 
       web3.eth.getGasPrice(function (error, gasPrice) {
-        console.log('zsdrmfgjmnbdxrjkgnjkdx', error, gasPrice / Math.pow(10, 18));
+        console.log('zsdrmfgjmnbdxrjkgnjkdx', error, gasPrice/Math.pow(10,18));
         web3.eth.estimateGas({
           to: contractAddress,
           data: web3.eth.contract(contractAbi).
-            at(contractAddress)
-            .transfer.getData(toAddress, amount * Math.pow(10, decimals), { from: walletAddress })
+          at(contractAddress)
+          .transfer.getData(toAddress, amount * Math.pow(10, decimals), { from: walletAddress })
         }, function (err, gasLimit) {
           console.log('err gas limit:', err)
           console.log('err gas limit:', gasLimit)

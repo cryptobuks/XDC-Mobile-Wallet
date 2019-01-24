@@ -23,8 +23,7 @@ const styles = StyleSheet.create({
     color: '#000',
     fontSize: 15,
     paddingTop: 5,
-  },
-  itemAmountContainer: {
+  },  itemAmountContainer: {
     flexDirection: 'row',
   },
   itemAmountSymbol: {
