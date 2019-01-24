@@ -9,6 +9,8 @@ import network from './images/network.png';
 import send from './images/send.png';
 import receive from './images/receive.png';
 import login from './images/login.png';
+import webwallet from './images/webwallet.png';
+import token from './images/addtoken.png';
 import privatekey from './images/private.png';
 import PropTypes from 'prop-types';
 import { persistor } from '../../config/store';
@@ -116,7 +118,7 @@ class CustomDrawer extends Component {
                         </Text>
                     </View>
                     <View style={styles.navSectionStyle}>
-                        <Image source={receive} style={styles.Icon}/>
+                        <Image source={token} style={styles.Icon}/>
                         <Text 
                             style={activeItemKey === 'AddToken' ? activeTabStyle : normalTabStyle}
                             onPress={this.navigateToScreen('AddToken', false)}>
@@ -148,7 +150,7 @@ class CustomDrawer extends Component {
                         </Text>
                     </View>
                     <View style={styles.navSectionStyle}>
-                        <Image source={privatekey} style={styles.Icon}/>
+                        <Image source={webwallet} style={styles.Icon}/>
                         <TouchableOpacity
                             onPress = { () => 
                             {
