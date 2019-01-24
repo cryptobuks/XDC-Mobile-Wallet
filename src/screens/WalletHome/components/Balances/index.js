@@ -68,6 +68,7 @@ class Balances extends Component {
     labelWidth: 0,
     tokenList: null,
     tokenBalances: null,
+    tokenBalancesLength: null,
   }
 
   static propTypes = {
@@ -82,17 +83,27 @@ class Balances extends Component {
     
           const balanceInfo = await WalletUtils.getBalance(token);
           let stateBalance = [];
+          let stateBalanceObj = {};
           if(this.state.tokenBalances != null) {
-            stateBalance = this.state.tokenBalances;
-            stateBalance.push(balanceInfo);
+            stateBalance = this.state.tokenBalancesLength;
+            stateBalance.push({
+              [token.name]: balanceInfo,
+            });
+
+            stateBalanceObj = this.state.tokenBalances;
+            stateBalanceObj[token.name] = balanceInfo
           } else {
-            stateBalance.push(balanceInfo);
+            stateBalance.push({
+              [token.name]: balanceInfo,
+            });
+
+            stateBalanceObj[token.name] = balanceInfo
           }
-          console.log('balance obj', stateBalance);
           this.setState({
-            tokenBalances: stateBalance
+            tokenBalancesLength: stateBalance,
+            tokenBalances: stateBalanceObj
           })
-          console.log('balance state', this.state.tokenBalances)
+          console.log('balance state', this.state.tokenBalances, this.state.tokenBalancesLength)
             // .then(resp => {
             //   balanceObj[index] = {
             //     [token.name]: index
@@ -143,7 +154,8 @@ class Balances extends Component {
     const colors = ['#254a81', '#8e44ad', '#f39c12', '#16a085', '#2c3e50']
 
     let tokens = null;
-    if(this.state.tokenList != null && this.state.tokenBalances != null && this.state.tokenList.length === this.state.tokenBalances.length) {
+    if(this.state.tokenList != null && this.state.tokenBalances != null && this.state.tokenList.length === this.state.tokenBalancesLength.length) {
+      console.log('lengthcheck 1', this.state.tokenList, this.state.tokenBalances)
       tokens = this.state.tokenList.map((token, index) => {
         
         return(
@@ -153,10 +165,10 @@ class Balances extends Component {
                 {token.name}
               </Text>
               <Text style={{color: '#333'}} letterSpacing={2}>
-                {this.state.tokenBalances[index].usdBalance.toFixed(2)}
+                {this.state.tokenBalances[token.name].usdBalance.toFixed(2)}
               </Text>
               <Text style={{color: '#333'}} letterSpacing={2}>
-                {this.state.tokenBalances[index].balance.toFixed(2)}
+                {this.state.tokenBalances[token.name].balance.toFixed(2)}
               </Text>
             </View>
           </View>
@@ -167,16 +179,15 @@ class Balances extends Component {
 
     let data = null;
     let balanceInfo = null;
-    if(this.state.tokenList != null && this.state.tokenBalances != null && this.state.tokenList.length === this.state.tokenBalances.length) {
+    if(this.state.tokenList != null && this.state.tokenBalances != null && this.state.tokenList.length === this.state.tokenBalancesLength.length) {
       
-      data = this.state.tokenBalances.map((token, index) => {
+      data = this.state.tokenBalancesLength.map((token, index) => {
         const keyName = this.state.tokenList[index].name;
         const key = keyName;
-        balanceInfo += token.usdBalance;
-        console.log('global 1', index, token, key);
+        balanceInfo += this.state.tokenBalances[keyName].usdBalance;
         return {
             key,
-            value: token.usdBalance,
+            value: this.state.tokenBalances[keyName].usdBalance,
             svg: { fill: colors[index] },
             arc: { 
               outerRadius: '100%',

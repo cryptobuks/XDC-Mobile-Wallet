@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
   topContainer: {
-    flex: 1,
+    flexGrow: 1,
+    flexDirection: 'column',
     backgroundColor: 'transparent',
   },
   gradientHeaderWrapper: {
@@ -159,7 +160,6 @@ class WalletHome extends Component {
   onRefresh = () => {
     this.fetchBalance();
     this.fetchTransactions();
-    this.signInWithGoogle();
   };
 
   handleAppStateChange = nextAppState => {
@@ -180,13 +180,6 @@ class WalletHome extends Component {
     AppState.removeEventListener('change', this.handleAppStateChange);
   };
 
-  signInWithGoogle = async () => {
-    const status = await WalletUtils.OAuthSignIn();
-
-    this.setState({
-      status,
-    })
-  }
 
   fetchBalance = async () => {
     const currentBalance = await WalletUtils.getBalance(
