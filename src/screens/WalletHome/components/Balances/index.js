@@ -9,16 +9,17 @@ import WalletUtils from '../../../../utils/wallet';
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    backgroundColor: 'transparent',
-    padding: 20,
+    height: '100%',
     flex: 1,
+    backgroundColor: 'transparent',
   },
   balanceWrap: {
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     paddingVertical: 50,
     paddingHorizontal: 20,
     width: '100%',
-    backgroundColor: '#fff',
+    height: '100%',
+    backgroundColor: '#777',
     position: 'relative',
   },
   usdBalance: {
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     flexWrap: 'wrap',
-    flex: 1,
+    height: '100%'
   },
   balanceDetails: {
     width: '48%',
@@ -160,6 +161,7 @@ class Balances extends Component {
             </View>
           </View>
         )
+        
       });
     }
 
@@ -189,7 +191,7 @@ class Balances extends Component {
     
     
     return (
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.balanceWrap}>
         
         { data != null ? 
@@ -211,7 +213,7 @@ class Balances extends Component {
               {tokens}
           </View>
         </View>
-      </ScrollView>
+      </View>
     );
   }
 }

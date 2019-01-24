@@ -12,13 +12,13 @@ const defaultTokens = [
     network: 'mainnet',
   },
   {
-    name: 'ELT',
+    name: 'MXDC',
     id: uuid.v4(),
-    symbol: 'ELT',
-    contractAddress: contractAddress,
+    symbol: 'MXDC',
+    contractAddress: null,
     decimals: 18,
     currencySymbol: 'USD',
-    network: 'ropsten',
+    network: 'private',
   },
   {
     name: 'DAIVIK',
