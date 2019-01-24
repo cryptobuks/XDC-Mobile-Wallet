@@ -33,13 +33,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     letterSpacing: 1,
-    padding: 10,
+    padding: 20,
     marginVertical: 15,
     width: '100%',
     backgroundColor: '#fff',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'flex-start',
     flexWrap: 'wrap',
+    flex: 1,
   },
   balanceDetails: {
     width: '48%',
@@ -75,6 +77,44 @@ class Balances extends Component {
     }).isRequired,
   }
 
+  fetchDashboardData = async (token, index) => {
+    
+          const balanceInfo = await WalletUtils.getBalance(token);
+          let stateBalance = [];
+          if(this.state.tokenBalances != null) {
+            stateBalance = this.state.tokenBalances;
+            stateBalance.push(balanceInfo);
+          } else {
+            stateBalance.push(balanceInfo);
+          }
+          console.log('balance obj', stateBalance);
+          this.setState({
+            tokenBalances: stateBalance
+          })
+          console.log('balance state', this.state.tokenBalances)
+            // .then(resp => {
+            //   balanceObj[index] = {
+            //     [token.name]: index
+            //   }
+            //   this.setState({
+            //     tokenBalances: balanceObj 
+            //   })
+            // })
+            // .catch(err => {
+            //   console.log('err',err)
+            //   balanceObj[index] = {
+            //     [token.name]: index
+            //   }
+            //   if(this.state.tokenList.length === balanceObj.length) {
+            //     console.log('balance obj length', balanceObj.length, balanceObj)
+            //     this.setState({
+            //       tokenBalances: JSON.parse(JSON.stringify(balanceObj)) 
+            //     })
+            //   }
+            // })
+        
+  }
+
   componentWillMount() {
     AsyncStorage.getItem('availableTokens')
     .then(r => {
@@ -82,29 +122,9 @@ class Balances extends Component {
         tokenList: JSON.parse(r),
       });
       if(this.state.tokenList != null) {
-        const balanceObj = [];
         this.state.tokenList.map((token, index) => {
-          
-          WalletUtils.getBalance(token)
-            .then(resp => {
-              balanceObj[index] = {
-                [token.name]: index
-              }
-              this.setState({
-                tokenBalances: balanceObj 
-              })
-            })
-            .catch(err => {
-              console.log('err',err)
-              balanceObj[index] = {
-                [token.name]: index
-              }
-              this.setState({
-                tokenBalances: balanceObj 
-              })
-            })
+          this.fetchDashboardData(token);
         })
-        
       }
     }).catch(e=>console.log(e));
   }
@@ -132,10 +152,10 @@ class Balances extends Component {
                 {token.name}
               </Text>
               <Text style={{color: '#333'}} letterSpacing={2}>
-                {this.state.tokenBalances[index][token.name].toFixed(2)}
+                {this.state.tokenBalances[index].usdBalance.toFixed(2)}
               </Text>
               <Text style={{color: '#333'}} letterSpacing={2}>
-                {this.state.tokenBalances[index][token.name].toFixed(2)}
+                {this.state.tokenBalances[index].balance.toFixed(2)}
               </Text>
             </View>
           </View>
@@ -150,11 +170,11 @@ class Balances extends Component {
       data = this.state.tokenBalances.map((token, index) => {
         const keyName = this.state.tokenList[index].name;
         const key = keyName;
-        balanceInfo += token[keyName];
+        balanceInfo += token.usdBalance;
         console.log('global 1', index, token, key);
         return {
             key,
-            value: token[keyName],
+            value: token.usdBalance,
             svg: { fill: colors[index] },
             arc: { 
               outerRadius: '100%',
