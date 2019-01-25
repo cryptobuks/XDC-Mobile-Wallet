@@ -90,7 +90,7 @@ export default class WalletUtils {
         );
       default:
         return new Web3.providers.HttpProvider(
-          "https://ropsten.infura.io/v3/f060477f35da4c4b85e403b978b17d55",
+          "https://5.152.223.197:8545",
         );
     }
   }
@@ -218,7 +218,53 @@ export default class WalletUtils {
   static getBalance({ contractAddress, symbol, decimals }) {
     console.log('Contract Address is: ', contractAddress);
     console.log('Token Decimals is: ', decimals);
-    return this.getERC20Balance(contractAddress, decimals);
+    
+    if(symbol === 'MXDC') {
+      return this.getEthBalance();
+    } else {
+      return this.getERC20Balance(contractAddress, decimals);
+    }
+  }
+
+  static getEthBalance() {
+    const { walletAddress } = store.getState();
+    const web3 = new Web3(this.getWeb3HTTPProvider());
+
+
+
+    return new Promise((resolve, reject) => {
+      // get ether balance
+      web3.eth.getBalance(walletAddress, function (e, r) {
+        console.log('getbalance eth', r);
+        console.log('getbalance ree', r / Math.pow(10, 18));
+        if (error) {
+          reject(error);
+        }
+
+        let balanceData = {};
+        const balance = weiBalance / Math.pow(10, 18);
+        let usdBalance = null;
+        console.log('fetch started')
+        fetch(`https://api.coinmarketcap.com/v2/ticker/1027/?convert=USD`)
+          .then(res => res.json())
+          .then(function (response) {
+            console.log(response);
+            usdBalance = response.data.quotes.USD.price * balance;
+            balanceData = {
+              'balance': balance,
+              'usdBalance': usdBalance
+            };
+            console.log('balanceData:', balanceData);
+            resolve(balanceData);
+          })
+          .catch(error => console.error('Error:', error));
+
+
+        AnalyticsUtils.trackEvent('Get ETH balance', {
+          balance,
+        });
+      });
+    });
   }
 
   /**
@@ -235,11 +281,7 @@ export default class WalletUtils {
 
     return new Promise((resolve, reject) => {
       var MyContract = web3.eth.contract(contractAbi);
-      // get ether balance
-      web3.eth.getBalance(walletAddress, function (e, r) {
-        console.log('getbalance eth', r);
-        console.log('getbalance ree', r / Math.pow(10, 18));
-      });
+      
 
       var instancecontract = MyContract.at(contractAddress);
       instancecontract.balanceOf(walletAddress, function (error, weiBalance) {
