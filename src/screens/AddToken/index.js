@@ -6,13 +6,14 @@ import { GradientBackground, Header, SecondaryButton } from '../../components';
 import Form from './components/Form';
 import { ADD_TOKEN, SET_DEFAULT_TOKEN } from '../../config/actionTypes';
 import AnalyticsUtils from '../../utils/analytics';
+import { DrawerActions } from 'react-navigation';
+import Footer from '../UIComponents/Footer/index';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
-    paddingBottom: 15,
   },
   buttonContainer: {
     paddingHorizontal: 15,
@@ -24,6 +25,7 @@ class AddToken extends Component {
   static propTypes = {
     addToken: PropTypes.func.isRequired,
     navigation: PropTypes.shape({
+      dispatch: PropTypes.func.isRequired,
       goBack: PropTypes.func.isRequired,
       navigate: PropTypes.func.isRequired,
     }).isRequired,
@@ -98,6 +100,7 @@ class AddToken extends Component {
       <GradientBackground>
         <SafeAreaView style={styles.container}>
           <Header
+            hamBurgerPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
             onBackPress={() => this.props.navigation.goBack()}
             title="Add token"
           />
@@ -130,6 +133,18 @@ class AddToken extends Component {
               text="Add"
             />
           </View>
+          
+          <Footer
+            activeTab="home"
+            onReceivePress={() => this.props.navigation.navigate('Receive')}
+            onHomePress={() => this.props.navigation.navigate('WalletHome')}
+            onSendPress={() =>
+              this.props.navigation.navigate('Send', {
+                onTokenChange: this.onTokenChange,
+              })
+            }
+            ontransactionsPress={() => this.props.navigation.navigate('WalletTransactions')}
+          />
         </SafeAreaView>
       </GradientBackground>
     );
