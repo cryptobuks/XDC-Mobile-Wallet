@@ -9,17 +9,17 @@ import WalletUtils from '../../../../utils/wallet';
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: '100%',
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: '#fff',
+    marginBottom: 20,
   },
   balanceWrap: {
-    justifyContent: 'space-between',
-    paddingVertical: 50,
-    paddingHorizontal: 20,
+    alignItems: 'stretch',
+    padding: 20,
     width: '100%',
     height: '100%',
-    backgroundColor: '#777',
+    flex: 1,
+    backgroundColor: '#fff',
     position: 'relative',
   },
   usdBalance: {
@@ -37,20 +37,13 @@ const styles = StyleSheet.create({
     padding: 20,
     marginVertical: 15,
     width: '100%',
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    backgroundColor: '#eee',
     flexWrap: 'wrap',
-    height: '100%'
+    flexDirection: 'row',
   },
   balanceDetails: {
-    width: '48%',
+    width: '50%',
     padding: 10,
-    marginHorizontal: '1%',
-    marginVertical: '1%',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   tokenName: {
     color: '#000', 
@@ -224,6 +217,7 @@ class Balances extends Component {
               {tokens}
           </View>
         </View>
+        
       </View>
     );
   }

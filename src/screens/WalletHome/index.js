@@ -24,9 +24,10 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
   topContainer: {
-    flexGrow: 1,
-    flexDirection: 'column',
+    flex: 1,
     backgroundColor: 'transparent',
+    padding: 20,
+    paddingBottom: 0,
   },
   gradientHeaderWrapper: {
     height: 150,

@@ -23,7 +23,7 @@ const storage = createSensitiveStorage({
 });
 
 const persistConfig = {
-  timeout: 100000,
+  timeout: 1000,
   key: 'xdcwallet',
   version: 1,
   storage: AsyncStorage,
