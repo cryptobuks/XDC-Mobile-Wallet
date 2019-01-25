@@ -216,9 +216,6 @@ export default class WalletUtils {
    * @param {Object} token
    */
   static getBalance({ contractAddress, symbol, decimals }) {
-    console.log('Contract Address is: ', contractAddress);
-    console.log('Token Decimals is: ', decimals);
-    
     if(symbol === 'MXDC') {
       return this.getEthBalance();
     } else {
@@ -229,16 +226,13 @@ export default class WalletUtils {
   static getEthBalance() {
     const { walletAddress } = store.getState();
     const web3 = new Web3(this.getWeb3HTTPProvider());
-
-
-
     return new Promise((resolve, reject) => {
       // get ether balance
-      web3.eth.getBalance(walletAddress, function (e, r) {
-        console.log('getbalance eth', r);
-        console.log('getbalance ree', r / Math.pow(10, 18));
-        if (error) {
-          reject(error);
+      web3.eth.getBalance(walletAddress, function (e, weiBalance) {
+        console.log('getbalance eth', weiBalance);
+        console.log('getbalance ree', weiBalance / Math.pow(10, 18));
+        if (e) {
+          reject(e);
         }
 
         let balanceData = {};
