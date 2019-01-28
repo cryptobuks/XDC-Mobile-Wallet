@@ -90,8 +90,8 @@ export default class WalletUtils {
         );
       default:
         return new Web3.providers.HttpProvider(
-          // "https://5.152.223.197:8545",
-          "https://ropsten.infura.io/v3/f060477f35da4c4b85e403b978b17d55"
+          "http://5.152.223.197:8545",
+          // "https://ropsten.infura.io/v3/f060477f35da4c4b85e403b978b17d55"
         );
     }
   }
@@ -400,11 +400,13 @@ export default class WalletUtils {
   // Send an ETH(MXDC) transaction to the given address with the given amount
 
   static sendETHTransaction(toAddress,amount){
+    const web3 = this.getWeb3Instance();
+    
      return new Promise((resolve, reject) => {
       web3.eth.sendTransaction(
         {
           to: toAddress,
-          value: web3.toWei(amount),
+          value: amount * Math.pow(10, 18),
         },
         (error, transaction) => {
           console.log("MXDC Transaction error",error);
@@ -415,7 +417,7 @@ export default class WalletUtils {
 
           resolve(transaction);
         },
-      );
+      )
     });
   }
 }

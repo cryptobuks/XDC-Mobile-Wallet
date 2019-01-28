@@ -121,6 +121,7 @@ class WalletSend extends Component {
           isLoading: false,
         },
         () => {
+          console.log(error)
           Alert.alert(
             `Sending ${this.props.selectedToken.symbol}`,
             `An error happened during the transaction, please try again later`,
