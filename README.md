@@ -46,3 +46,11 @@ For debugging, we recommend using React Native Debugger
 
 # How it works
 
+* User needs to signup for first time using GOOGLE signup or Slack.
+* A new wallet is generated offline for the user providing a new public address and private key.
+* User get to see the balance of XDC, XDCE and other custom tokens balances on dashboard in his native currency
+* Whenever a user attempts to send tokens a transaction is generated and signed with users private key offline and then the transaction is sent to the network.
+* A user can also export his private key through various options.
+* A transactions list shows all the transactions done by the user.
+* The application is secured with mpin from wallet creation to logout,
+
